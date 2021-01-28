@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bixa_alpha2</string>
+    <string name="user">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="registrarse">¿No tienes cuenta?</string>
+    <string name="REGISTRATE">Registrarse</string>
+    <string name="Bienvenido">Hola, bienvenido de vuelta.</string>
+    <string name="PrimeraVez">Hola, bienvenido a Bixa.</string>
+    <string name="nombre">Nombre(s)</string>
+    <string name="escribe_algo">Escribe algo</string>
+</resources>

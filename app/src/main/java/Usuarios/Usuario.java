@@ -1,0 +1,56 @@
+package Usuarios;
+
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+    private String username;
+    private String contrasenia;
+    private String nombre;
+    private String apellido;
+    private char genero;
+
+    // Ocupacion
+    public Usuario(String username, String contrasenia, String nombre, String apellido, char genero) {
+        this.username = username;
+        this.contrasenia = contrasenia;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.genero = genero;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+}

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9FAFE"
+    android:orientation="vertical"
+    tools:context=".RegistroActivity">
+
+    <ImageView
+        android:id="@+id/imview_logo"
+        android:layout_width="132dp"
+        android:layout_height="131dp"
+        android:layout_gravity="left"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Logo"
+        app:srcCompat="@drawable/logo_small_icon_only" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="@string/PrimeraVez"
+        android:textSize="35sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:layout_marginBottom="25dp"
+        android:text="Registrate para utilizar el asistente ">
+
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/entrada_Nombres_registro"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/caja_rectangulo_redondeado"
+        android:ems="10"
+        android:fontFamily="@font/muli"
+        android:hint="@string/nombre"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/entrada_apellidos_registro"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/caja_rectangulo_redondeado"
+        android:ems="10"
+        android:fontFamily="@font/muli"
+        android:hint="Apellido(s)"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="0dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="10">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/entrada_usuario_registro"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="@font/muli"
+            android:background="@drawable/caja_rectangulo_redondeado"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:ems="10"
+            android:maxLength="10"
+            android:hint="Nombre de usuario"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/entrada_txf_pass_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:background="@drawable/caja_rectangulo_redondeado"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:ems="10"
+            android:maxLength="10"
+            android:hint="@string/contraseña"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/entrada_txf_pass_2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/caja_rectangulo_redondeado"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:ems="10"
+            android:fontFamily="@font/muli"
+            android:maxLength="10"
+            android:hint="Verificar contraseña"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:text="Sexo: ">
+
+        </TextView>
+
+        <RadioButton
+            android:id="@+id/boton_masc_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:text="Masculino"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/boton_fem_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:text="Femenino"></RadioButton>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/boton_registrarse"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/caja_boton"
+        android:text="@string/REGISTRATE"
+        android:textColor="#FFFF"
+        android:textSize="18sp" />
+
+</LinearLayout>

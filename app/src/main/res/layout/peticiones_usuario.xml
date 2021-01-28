@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:id="@+id/ImagenUsuario_perfil"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/NombreUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@id/ImagenUsuario_perfil"
+            android:text=""
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/Textvw_MensajeUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="50dp"
+            android:textColor="@color/blanco_chido"
+            android:layout_marginBottom="0dp"
+            android:layout_toLeftOf="@id/ImagenUsuario_perfil"
+            android:background="@drawable/caja_respuesta_usuario"
+            android:padding="8dp"
+            android:text="Hola Bixa"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/Textvw_HoraMenUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:text="8:00"
+            android:layout_toStartOf="@id/Textvw_MensajeUsuario"
+            android:layout_alignBottom="@id/Textvw_MensajeUsuario"
+            android:textColor="#C0C0C0"
+            android:textSize="10sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

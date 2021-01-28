@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:padding="8dp"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:id="@+id/ImagenBixa_perfil"
+        android:layout_height="40dp"
+        android:src="@drawable/logo_bixa_solo_icono"/>
+
+    <TextView
+        android:id="@+id/NombreBixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_toRightOf="@id/ImagenBixa_perfil"
+        android:text="Bixa"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/Textvw_MensajeBixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_toRightOf="@id/ImagenBixa_perfil"
+        android:layout_marginLeft="5dp"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:text="Prueba"
+        android:background="@drawable/caja_respuesta_bixa"/>
+    <TextView
+        android:id="@+id/Textvw_HoraMenBixa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8:00"
+        android:textColor="#C0C0C0"
+        android:textSize="10sp"
+        android:layout_toEndOf="@id/Textvw_MensajeBixa"
+        android:layout_alignBottom="@id/Textvw_MensajeBixa"/>
+
+</RelativeLayout>
