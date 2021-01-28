@@ -15,7 +15,7 @@
         android:layout_gravity="left"
         android:layout_marginTop="20dp"
         android:contentDescription="Logo"
-        app:srcCompat="@drawable/logo_small_icon_only" />
+        app:srcCompat="@drawable/logo_bixa_solo_letras" />
 
     <TextView
         android:layout_width="wrap_content"
