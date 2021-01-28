@@ -1,5 +1,7 @@
 package Usuarios;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
@@ -8,6 +10,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
     private char genero;
+    Uri ruta_fotoperfil;
 
     // Ocupacion
     public Usuario(String username, String contrasenia, String nombre, String apellido, char genero) {
@@ -36,6 +39,14 @@ public class Usuario implements Serializable {
 
     public void setGenero(char genero) {
         this.genero = genero;
+    }
+
+    public void setRuta_fotoperfil(Uri ruta_fotoperfil) {
+        this.ruta_fotoperfil = ruta_fotoperfil;
+    }
+
+    public Uri getRuta_fotoperfil() {
+        return ruta_fotoperfil;
     }
 
     public String getUsername() {

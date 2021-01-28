@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import Excepciones_Bixa.ContraseniaIncorrectaException;
 import Excepciones_Bixa.ContraseniaInseguraException;
 import Excepciones_Bixa.UsuarioYaExistenteException;
 import Usuarios.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -31,6 +34,9 @@ public class RegistroActivity extends AppCompatActivity {
     private RadioButton boton_Masc;
     private RadioButton boton_Fem;
     private Button boton_Registrarse;
+    ImageButton FotoPerfil_boton;
+    CircleImageView FotoPerfilvista;
+    Uri ruta_imagenperfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,15 @@ public class RegistroActivity extends AppCompatActivity {
         boton_Masc = findViewById(R.id.boton_masc_reg);
         boton_Fem = findViewById(R.id.boton_fem_reg);
         boton_Registrarse = findViewById(R.id.boton_registrarse);
+        FotoPerfilvista = findViewById(R.id.FotoPerfilVista);
+
+        // Evento para selecionar la foto de perfil
+        FotoPerfilvista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarImagen();
+            }
+        });
 
         boton_Registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +117,12 @@ public class RegistroActivity extends AppCompatActivity {
                 }else{
                     // si todos los datos son correctos se crea el perfil del usuario y añade a la hash Map
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
+
+                    // Si el usuario ingreso una imagen de perfil
+                    if(ruta_imagenperfil != null){
+                        BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(ruta_imagenperfil);
+                    }
+
                     // Se actualiza el archivo de 'base de datos' para que al salir de la app quede registrado el user
                     try {
                         ObjectOutputStream archivo = new ObjectOutputStream( openFileOutput("BasedeUsuarios.bixa", Activity.MODE_PRIVATE));
@@ -120,6 +141,22 @@ public class RegistroActivity extends AppCompatActivity {
             }
         }else{
             throw new UsuarioYaExistenteException();
+        }
+    }
+
+    // Metodo para utilizar imagenes de el telefono del usuario en la app
+    public void cargarImagen(){
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicacion"),10);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,Intent data){
+        super.onActivityResult(requestCode, resultCode,data);
+        if(resultCode == RESULT_OK){
+            ruta_imagenperfil = data.getData();
+            FotoPerfilvista.setImageURI(ruta_imagenperfil);
         }
     }
 

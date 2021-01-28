@@ -15,7 +15,6 @@ import Usuarios.Usuario;
 
 public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
     TextView mensajeUsua, horaUsuario , nombreusuario_mensaje;
-    ;
     ImageView fotoPerfilUs;
 
     PeticionUsuarioHolder(View itemView) {
@@ -24,6 +23,7 @@ public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
         mensajeUsua = (TextView) itemView.findViewById(R.id.Textvw_MensajeUsuario);
         horaUsuario = (TextView) itemView.findViewById(R.id.Textvw_HoraMenUsuario);
         nombreusuario_mensaje = (TextView) itemView.findViewById(R.id.NombreUsuario);
+        fotoPerfilUs = (ImageView) itemView.findViewById(R.id.ImagenUsuario_perfil_petUs);
     }
 
     void bind(Mensaje mensaje) {
@@ -35,6 +35,7 @@ public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         horaUsuario.setText(dateFormat.format(mensaje.getTiempo_envio()));
         // Inserta la foto de perfil que el usuario Ingreso
-//        Utils.displayRoundImageFromUrl(mContext, mensaje.getSender().getProfileUrl(), profileImage);
+        fotoPerfilUs.setImageURI(mensaje.getEmisor().getRuta_fotoperfil());
+
     }
 }

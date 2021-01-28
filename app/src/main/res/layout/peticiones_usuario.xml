@@ -12,7 +12,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
-            android:id="@+id/ImagenUsuario_perfil"
+            android:id="@+id/ImagenUsuario_perfil_petUs"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:src="@mipmap/ic_launcher"/>
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:layout_toLeftOf="@id/ImagenUsuario_perfil"
+            android:layout_toLeftOf="@id/ImagenUsuario_perfil_petUs"
             android:text=""
             android:textSize="10sp" />
 
@@ -36,7 +36,7 @@
             android:layout_marginEnd="50dp"
             android:textColor="@color/blanco_chido"
             android:layout_marginBottom="0dp"
-            android:layout_toLeftOf="@id/ImagenUsuario_perfil"
+            android:layout_toLeftOf="@id/ImagenUsuario_perfil_petUs"
             android:background="@drawable/caja_respuesta_usuario"
             android:padding="8dp"
             android:text="Hola Bixa"
