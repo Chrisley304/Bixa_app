@@ -1,9 +1,14 @@
 package com.example.login_plantilla;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +43,8 @@ public class RegistroActivity extends AppCompatActivity {
     CircleImageView FotoPerfilvista;
     Uri ruta_imagenperfil;
 
+    private static final int CODIGO_PERMISO = 101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +65,15 @@ public class RegistroActivity extends AppCompatActivity {
         FotoPerfilvista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarImagen();
+                // Se "pide permiso" al usuario para utilizar imagenes de su galeria (Por cuestiones de privacidad de android)
+                if(ContextCompat.checkSelfPermission(RegistroActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    // Si no se tiene el permiso del usuario
+                    ActivityCompat.requestPermissions(RegistroActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},CODIGO_PERMISO);
+                }
+                else{
+                    // Si se tiene el permiso se procede a cargar imagenes
+                    cargarImagen();
+                }
             }
         });
 
