@@ -106,10 +106,7 @@ public class BixaMain extends AppCompatActivity {
                 String mensaje = Texto_porEnviar.getText().toString();
 
                 if(!mensaje.isEmpty()){
-                    EnviarMensaje(mensaje,user);
-                    String respuesta_bixa = bixa.Responder(mensaje,user);
-                    EnviarMensaje(respuesta_bixa,bixa);
-                    VozBixa.speak(respuesta_bixa,TextToSpeech.QUEUE_FLUSH,null);
+                    MandarPeticion(mensaje,user);
 
                 }else {
                     Toast.makeText(BixaMain.this,"Por favor ingresa texto",Toast.LENGTH_SHORT).show();
@@ -126,6 +123,13 @@ public class BixaMain extends AppCompatActivity {
         mMessageRecycler.setLayoutManager(linL);
     }
 
+    private void MandarPeticion(String petUsuario, Usuario Perfil_usuario){
+        EnviarMensaje(petUsuario,Perfil_usuario);
+        petUsuario = petUsuario.toLowerCase();
+        String respuesta_bixa = bixa.Responder(petUsuario,Perfil_usuario);
+        EnviarMensaje(respuesta_bixa,bixa);
+        VozBixa.speak(respuesta_bixa,TextToSpeech.QUEUE_FLUSH,null);
+    }
 
     private void EnviarMensaje(String mensaje, Usuario emisor){
         messageList.add(new Mensaje(mensaje,emisor,System.currentTimeMillis()));
@@ -155,10 +159,7 @@ public class BixaMain extends AppCompatActivity {
             if (resultCode == RESULT_OK && data != null) {
                 ArrayList<String> resultado = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String salida = resultado.get(0);
-                EnviarMensaje(salida,user);
-                String respuesta_bixa = bixa.Responder(salida,user);
-                EnviarMensaje(respuesta_bixa,bixa);
-                VozBixa.speak(respuesta_bixa,TextToSpeech.QUEUE_FLUSH,null);
+                MandarPeticion(salida,user);
             }
         }
     }

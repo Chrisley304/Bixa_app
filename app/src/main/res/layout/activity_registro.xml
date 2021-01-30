@@ -188,14 +188,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/muli"
-                android:text="Masculino"></RadioButton>
+                android:text="Masculino">
+            </RadioButton>
 
             <RadioButton
                 android:id="@+id/boton_fem_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/muli"
-                android:text="Femenino"></RadioButton>
+                android:text="Femenino">
+            </RadioButton>
 
         </RadioGroup>
 
