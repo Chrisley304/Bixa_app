@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/bienvenidaActivity">
+
+    <activity
+        android:id="@+id/bienvenidaActivity"
+        android:name="com.example.login_plantilla.BienvenidaActivity"
+        android:label="activity_bienvenida"
+        tools:layout="@layout/activity_bienvenida" >
+        <action
+            android:id="@+id/action_bienvenidaActivity_to_loginActivity"
+            app:destination="@id/loginActivity"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_bienvenidaActivity_to_registroActivity"
+            app:destination="@id/registroActivity"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </activity>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.login_plantilla.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" >
+        <action
+            android:id="@+id/action_loginActivity_to_bienvenidaActivity"
+            app:destination="@id/bienvenidaActivity"
+            app:enterAnim="@anim/fragment_close_exit" />
+    </activity>
+    <activity
+        android:id="@+id/registroActivity"
+        android:name="com.example.login_plantilla.RegistroActivity"
+        android:label="activity_registro"
+        tools:layout="@layout/activity_registro" >
+        <action
+            android:id="@+id/action_registroActivity_to_bienvenidaActivity"
+            app:destination="@id/bienvenidaActivity"
+            app:enterAnim="@anim/fragment_close_exit" />
+    </activity>
+</navigation>

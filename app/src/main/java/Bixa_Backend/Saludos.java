@@ -1,6 +1,7 @@
 
 package Bixa_Backend;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -8,13 +9,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Saludos {
+    final static String Saludos_txt =  "Archivos_txt/saludo.txt";
+    final static String Despedidas_txt = "Archivos_txt/despedida.txt";
 
-    final static String archivoSaludos = "Bixa_Backend/Archivos_txt/saludo.txt";
-    final static String archivoDespedidas = "Bixa_Backend/Archivos_txt/despedida.txt";
+
 
     // recibe el nombre el del usuario.name
     public static String getSaludo() {
 
+        File archivoSaludos = new File(Saludos_txt);
+        File archivoDespedidas = new File(getFilesDir(), Despedidas_txt);
+        archivoSaludos.getPath();
         Scanner fileIn;
         Random chis = new Random();
         ArrayList<String> saludos = new ArrayList<>();
