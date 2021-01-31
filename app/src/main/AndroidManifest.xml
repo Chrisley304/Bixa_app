@@ -12,19 +12,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".MenuDespegable"
+            android:label="@string/title_activity_menu_despegable"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".BienvenidaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".RegistroActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity
+            android:name=".RegistroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".BixaMain" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BixaMain"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"

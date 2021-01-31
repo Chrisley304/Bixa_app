@@ -19,16 +19,13 @@ import Usuarios.Usuario;
 
 public class BienvenidaActivity extends AppCompatActivity {
 
-    private Button IniciarSes;
-    private Button Registrarse;
     public static HashMap<String,Usuario> UsuariosRegistrados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bienvenida);
-        IniciarSes = findViewById(R.id.InciarSesion_boton);
-        Registrarse = findViewById(R.id.Registrarse_boton);
+        setContentView(R.layout.host_layout);
+
         String fileName = "BasedeUsuarios.bixa";
         // Instancia File, que servira para verificar la existencia del archivo
         File base_datos = new File(getFilesDir(), fileName);
@@ -62,25 +59,6 @@ public class BienvenidaActivity extends AppCompatActivity {
             finish();
         }
 
-
-
-
-        IniciarSes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Se carga la Actividad de Iniciar Sesion
-                Intent inses = new Intent(BienvenidaActivity.this,LoginActivity.class);
-                startActivity(inses);
-            }
-        });
-        Registrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Se carga la Actividad de Iniciar Sesion
-                Intent reg = new Intent(BienvenidaActivity.this,RegistroActivity.class);
-                startActivity(reg);
-            }
-        });
 
     }
 }

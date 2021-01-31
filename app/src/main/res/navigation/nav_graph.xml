@@ -3,42 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/bienvenidaActivity">
-
-    <activity
-        android:id="@+id/bienvenidaActivity"
-        android:name="com.example.login_plantilla.BienvenidaActivity"
-        android:label="activity_bienvenida"
-        tools:layout="@layout/activity_bienvenida" >
+    app:startDestination="@id/inicio_Bixa">
+    <fragment
+        android:id="@+id/inicio_Bixa"
+        android:name="com.example.login_plantilla.Inicio_Bixa"
+        android:label="fragment_inicio__bixa"
+        tools:layout="@layout/fragment_inicio__bixa" >
         <action
-            android:id="@+id/action_bienvenidaActivity_to_loginActivity"
-            app:destination="@id/loginActivity"
-            app:enterAnim="@anim/fragment_close_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
+            android:id="@+id/action_inicio_Bixa_to_loginBixa"
+            app:destination="@id/loginBixa" />
         <action
-            android:id="@+id/action_bienvenidaActivity_to_registroActivity"
-            app:destination="@id/registroActivity"
-            app:enterAnim="@anim/fragment_close_enter"
-            app:exitAnim="@anim/fragment_close_exit" />
-    </activity>
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.example.login_plantilla.LoginActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" >
+            android:id="@+id/action_inicio_Bixa_to_registroBixa"
+            app:destination="@id/registroBixa" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginBixa"
+        android:name="com.example.login_plantilla.LoginBixa"
+        android:label="fragment_login_bixa"
+        tools:layout="@layout/fragment_login_bixa" >
         <action
-            android:id="@+id/action_loginActivity_to_bienvenidaActivity"
-            app:destination="@id/bienvenidaActivity"
-            app:enterAnim="@anim/fragment_close_exit" />
-    </activity>
-    <activity
-        android:id="@+id/registroActivity"
-        android:name="com.example.login_plantilla.RegistroActivity"
-        android:label="activity_registro"
-        tools:layout="@layout/activity_registro" >
+            android:id="@+id/action_loginBixa_to_inicio_Bixa"
+            app:destination="@id/inicio_Bixa" />
+    </fragment>
+    <fragment
+        android:id="@+id/registroBixa"
+        android:name="com.example.login_plantilla.RegistroBixa"
+        android:label="fragment_registro_bixa"
+        tools:layout="@layout/fragment_registro_bixa" >
         <action
-            android:id="@+id/action_registroActivity_to_bienvenidaActivity"
-            app:destination="@id/bienvenidaActivity"
-            app:enterAnim="@anim/fragment_close_exit" />
-    </activity>
+            android:id="@+id/action_registroBixa_to_inicio_Bixa"
+            app:destination="@id/inicio_Bixa" />
+    </fragment>
 </navigation>

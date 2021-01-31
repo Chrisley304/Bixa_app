@@ -1,11 +1,15 @@
 package com.example.login_plantilla;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,31 +17,32 @@ import android.widget.Toast;
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
 import Excepciones_Bixa.UsuarioNoEncontradoException;
-import Usuarios.Usuario;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-
-public class LoginActivity extends AppCompatActivity {
+public class LoginBixa extends Fragment {
 
     private EditText usuario_in;
     private EditText password_in;
     private Button boton_login;
 
-    // Hash Map que contendra Usuarios Key -> Username, Value -> password
+    public LoginBixa() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        usuario_in = findViewById(R.id.entrada_usuario_login);
-        password_in = findViewById(R.id.entrada_texto_contra_login);
-        boton_login = findViewById(R.id.boton_login);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_login_bixa, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        usuario_in = view.findViewById(R.id.entrada_usuario_login);
+        password_in = view.findViewById(R.id.entrada_texto_contra_login);
+        boton_login = view.findViewById(R.id.boton_login);
 
 
         boton_login.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (ContraseniaIncorrectaException e) {
                     password_in.setError("Contraseña incorrecta");
                 } catch (CamposIncompletosException e){
-                    Toast.makeText(LoginActivity.this,"Por favor, ingresa datos en ambas casillas",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Por favor, ingresa datos en ambas casillas",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -74,17 +79,16 @@ public class LoginActivity extends AppCompatActivity {
                 // Si la contraseña es correcta:
                 if (BienvenidaActivity.UsuariosRegistrados.get(usuario).getContrasenia().equals(contrasenia)){
                     // Se inicia la actividad con el asistente de voz
-                    Intent intent  = new Intent(LoginActivity.this, BixaMain.class);
+                    Intent intent  = new Intent(getActivity(), MenuDespegable.class);
                     intent.putExtra("Usuario",usuario);
                     startActivity(intent);
-                    finish();
                 }
                 // Contraseña incorrecta
                 else{
                     throw new ContraseniaIncorrectaException();
                 }
             }else {
-                 throw new UsuarioNoEncontradoException();
+                throw new UsuarioNoEncontradoException();
             }
         }
     }

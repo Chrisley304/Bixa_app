@@ -17,16 +17,13 @@ public class Saludos {
     // recibe el nombre el del usuario.name
     public static String getSaludo() {
 
-        File archivoSaludos = new File(Saludos_txt);
-        File archivoDespedidas = new File(getFilesDir(), Despedidas_txt);
-        archivoSaludos.getPath();
         Scanner fileIn;
         Random chis = new Random();
         ArrayList<String> saludos = new ArrayList<>();
 
         try {
 
-            fileIn = new Scanner(new FileReader(archivoSaludos));
+            fileIn = new Scanner(new FileReader(Saludos_txt));
             while (fileIn.hasNextLine()) {
                 saludos.add(fileIn.nextLine());
             }
@@ -46,7 +43,7 @@ public class Saludos {
 
         try {
 
-            fileIn = new Scanner(new FileReader(archivoDespedidas));
+            fileIn = new Scanner(new FileReader(Despedidas_txt));
             while (fileIn.hasNextLine()) {
                 despedidas.add(fileIn.nextLine());
             }
