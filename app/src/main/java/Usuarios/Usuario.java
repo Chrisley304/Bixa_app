@@ -2,6 +2,7 @@ package Usuarios;
 
 import android.net.Uri;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
@@ -10,7 +11,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
     private char genero;
-    Uri ruta_fotoperfil;
+    File ruta_fotoperfil;
 
     // Ocupacion
     public Usuario(String username, String contrasenia, String nombre, String apellido, char genero) {
@@ -42,10 +43,10 @@ public class Usuario implements Serializable {
     }
 
     public void setRuta_fotoperfil(Uri ruta_fotoperfil) {
-        this.ruta_fotoperfil = ruta_fotoperfil;
+        this.ruta_fotoperfil = new File(ruta_fotoperfil.getPath());
     }
 
-    public Uri getRuta_fotoperfil() {
+    public File getRuta_fotoperfil() {
         return ruta_fotoperfil;
     }
 

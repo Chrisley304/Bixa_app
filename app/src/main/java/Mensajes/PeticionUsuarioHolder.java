@@ -1,6 +1,7 @@
 package Mensajes;
 
 import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +36,8 @@ public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         horaUsuario.setText(dateFormat.format(mensaje.getTiempo_envio()));
         // Inserta la foto de perfil que el usuario Ingreso
-        fotoPerfilUs.setImageURI(mensaje.getEmisor().getRuta_fotoperfil());
+
+//        fotoPerfilUs.setImageURI(Uri.fromFile(mensaje.getEmisor().getRuta_fotoperfil()));
 
     }
 }

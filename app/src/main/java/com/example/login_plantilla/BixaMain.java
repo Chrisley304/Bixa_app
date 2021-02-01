@@ -1,11 +1,17 @@
 package com.example.login_plantilla;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -24,29 +30,52 @@ import Mensajes.ListaMensajes;
 import Mensajes.Mensaje;
 import Usuarios.Bixa;
 import Usuarios.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BixaMain extends AppCompatActivity {
     // Variable final requerida para el Speach to text
     private static final int REQ_CODE_SPEECH_INPUT = 100;
+    DrawerLayout dwly;
 
     private RecyclerView mMessageRecycler;
     private ListaMensajes mMessageAdapter;
-    private Button Log_out;
     private ImageButton Boton_Enviar;
     EditText Texto_porEnviar;
     Usuario user;
+    String username;
     ArrayList<Mensaje> messageList = new ArrayList<>();
     FloatingActionButton BotonHablar;
     private TextToSpeech VozBixa;
+    CircleImageView BotonFotoperfil,fotopfDrawer;
     Bixa bixa = new Bixa();
+    TextView nombreNavbar;
+    TextView usernameNavbar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bixa_mensajes);
-        Log_out = findViewById(R.id.CerrarSesion_Bot);
         Boton_Enviar = findViewById(R.id.BotonEnviarMens);
         Texto_porEnviar = findViewById(R.id.Edittxt_mensaje);
         BotonHablar = findViewById(R.id.BotonSpeachtt);
+        dwly = findViewById(R.id.DrawerLayout);
+        nombreNavbar = findViewById(R.id.Nombre_navbar);
+        usernameNavbar = findViewById(R.id.Username_navbar);
+        BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
+        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
+
+
+        username = getIntent().getStringExtra("Usuario");
+        user = BienvenidaActivity.UsuariosRegistrados.get(username);
+        String nombreCompleto = user.getNombre() + " " + user.getApellido();
+        nombreNavbar.setText(nombreCompleto);
+        usernameNavbar.setText(username);
+
+        // Si el usuario agrego foto de perfil, se colocara
+        if (user.getRuta_fotoperfil() != null){
+            BotonFotoperfil.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
+            fotopfDrawer.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
+        }
+
 
         // Inicializacion Objeto para el Text to Speach (Voz del Asistente)
         VozBixa = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -69,15 +98,12 @@ public class BixaMain extends AppCompatActivity {
             }
         });
 
-        Log_out.setOnClickListener(new View.OnClickListener() {
+        BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                ClickMenu(v);
             }
         });
-        // Se obtiene el usuario de la actividad pasada (Registro o Log in)
-        String username = getIntent().getStringExtra("Usuario");
-        user = BienvenidaActivity.UsuariosRegistrados.get(username);
 
         // Muestra el Boton de enviar solo cuando hay texto, para asi mostrar el boton de Speach to Text
         Texto_porEnviar.addTextChangedListener(new TextWatcher() {
@@ -126,7 +152,7 @@ public class BixaMain extends AppCompatActivity {
     private void MandarPeticion(String petUsuario, Usuario Perfil_usuario){
         EnviarMensaje(petUsuario,Perfil_usuario);
         petUsuario = petUsuario.toLowerCase();
-        String respuesta_bixa = bixa.Responder(petUsuario,Perfil_usuario);
+        String respuesta_bixa = bixa.Responder(petUsuario,Perfil_usuario,getApplicationContext());
         EnviarMensaje(respuesta_bixa,bixa);
         VozBixa.speak(respuesta_bixa,TextToSpeech.QUEUE_FLUSH,null);
     }
@@ -164,4 +190,60 @@ public class BixaMain extends AppCompatActivity {
         }
     }
 
+    public void ClickMenu(View view){
+        openDrawer(dwly);
+    }
+
+    private void openDrawer(DrawerLayout drawerLayout) {
+        // Se abre el menu drawer
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    public void ClickFotoPerfil(View view){
+        closeDrawer(dwly);
+    }
+
+    public void closeDrawer(DrawerLayout drawerLayout){
+        // Se cierra el menu
+        // Pero primero se verifica que este abierto en primer lugar
+        if(dwly.isDrawerOpen(GravityCompat.START)){
+            // Si esta abierto, se procede a cerrar
+            dwly.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    public void ClickBixa(View view){
+        recreate();
+    }
+
+    public void ClickEditPerfil(View view){
+        // Se redirige a la actividad de Editat Perfil
+        Toast.makeText(this,"EN CONSTRUCCION",Toast.LENGTH_SHORT).show();
+    }
+    public void ClickCerrarSesion(View view){
+        // Se redirige a la actividad de Editat Perfil
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Cerrar Sesion");
+        builder.setMessage("¿Estas seguro que quieres cerrar sesión?, Esto te devolvera a la pantalla de inicio");
+        // Boton para cerrar sesion
+        builder.setPositiveButton("Cerrar Sesión", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        closeDrawer(dwly);
+    }
 }

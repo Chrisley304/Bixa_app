@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
@@ -31,11 +33,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    private EditText Edtx_nombres;
-    private EditText Edtx_apellidos;
-    private EditText Edtx_usuario;
-    private EditText Edtx_contra1;
-    private EditText Edtx_contra2;
+    private TextInputLayout Edtx_nombres;
+    private TextInputLayout Edtx_apellidos;
+    private TextInputLayout Edtx_usuario;
+    private TextInputLayout Edtx_contra1;
+    private TextInputLayout Edtx_contra2;
     private RadioButton boton_Masc;
     private RadioButton boton_Fem;
     private Button boton_Registrarse;
@@ -80,11 +82,11 @@ public class RegistroActivity extends AppCompatActivity {
         boton_Registrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombres = Edtx_nombres.getText().toString();
-                String apellidos = Edtx_apellidos.getText().toString();
-                String user = Edtx_usuario.getText().toString();
-                String contra = Edtx_contra1.getText().toString();
-                String contra2 = Edtx_contra2.getText().toString();
+                String nombres = Edtx_nombres.getEditText().getText().toString();
+                String apellidos = Edtx_apellidos.getEditText().getText().toString();
+                String user = Edtx_usuario.getEditText().getText().toString();
+                String contra = Edtx_contra1.getEditText().getText().toString();
+                String contra2 = Edtx_contra2.getEditText().getText().toString();
                 char sexo = boton_Masc.isChecked()? 'h' : boton_Fem.isChecked()? 'm': '-';
 
                 try {
@@ -104,32 +106,54 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void Registrar(String username, String contrasenia,String contra2,  String nombre, String apellido, char genero) throws UsuarioYaExistenteException, ContraseniaInseguraException, ContraseniaIncorrectaException, CamposIncompletosException {
 
+        // Validacion botones de seleccion de genero
         if (genero == '-'){
+            boton_Fem.setError("Selecciona una de las opciones");
             throw new CamposIncompletosException();
+        }else{
+            boton_Fem.setError(null);
         }
 
+        // Validacion de entrada de nombres
         if (nombre.length() <3){
+            // Vuelve a la casilla con error
             Edtx_nombres.setError("El nombre debe tener al menos 3 letras");
             throw new CamposIncompletosException();
+        }else{
+            // Si no hay errores, coloca a la casilla en su estado normal (Por si antes tenia un error)
+            Edtx_nombres.setError(null);
         }
+
+        // Validacion de entrada de apellidos
         if (apellido.length() <3){
             Edtx_apellidos.setError("El apellido debe tener al menos 3 letras");
             throw new CamposIncompletosException();
+        }else{
+            // Si no hay errores, coloca a la casilla en su estado normal (Por si antes tenia un error)
+            Edtx_apellidos.setError(null);
         }
+
+        // Validacion entrada nombre de usuario
         if (username.length() <4){
             Edtx_usuario.setError("Debe ser al menos de 4 caracteres");
             throw new CamposIncompletosException();
+        }else{
+            // Si no hay errores, coloca a la casilla en su estado normal (Por si antes tenia un error)
+            Edtx_usuario.setError(null);
         }
+
         // Se verifica que el nombre de usuario no se encuentre registrado actualmente
         if(!BienvenidaActivity.UsuariosRegistrados.containsKey(username)){
             // Si la contraseña es menor a 8 caracteres
             if (contrasenia.length() < 8){
                 throw new ContraseniaInseguraException();
             }else{
+                Edtx_contra1.setError(null);
                 // Se verifica que la contraseña escrita en ambas casillas sea la misma
                 if (!contrasenia.equals(contra2)){
                     throw new ContraseniaIncorrectaException();
                 }else{
+                    Edtx_contra2.setError(null);
                     // si todos los datos son correctos se crea el perfil del usuario y añade a la hash Map
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
 
@@ -145,13 +169,12 @@ public class RegistroActivity extends AppCompatActivity {
                         archivo.writeObject(BienvenidaActivity.UsuariosRegistrados);
                         archivo.close();
                     } catch (IOException e) {
-                        Toast.makeText(this,"ERROR: No se logro actualizar la base de datos",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistroActivity.this,"ERROR: No se logro actualizar la base de datos",Toast.LENGTH_LONG).show();
                     }
                     // Te envia a la pantalla del asistente
                     Intent intent  = new Intent(RegistroActivity.this, BixaMain.class);
                     intent.putExtra("Usuario",username);
                     startActivity(intent);
-                    finish();
                 }
             }
         }else{

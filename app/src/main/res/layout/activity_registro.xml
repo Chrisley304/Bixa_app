@@ -59,43 +59,60 @@
                 android:layout_height="100dp"
                 android:layout_marginHorizontal="5dp"
                 android:background="@drawable/circulo_foto_perfil"
-                android:src="@drawable/ic_add_photo_24px"/>
+                android:src="@drawable/ic_baseline_person_24"/>
 
 
 
         </LinearLayout>
 
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/entrada_Nombres_registro"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/caja_rectangulo_redondeado"
-            android:ems="10"
-            android:fontFamily="@font/muli"
-            android:hint="@string/nombre"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp" />
+            android:layout_marginBottom="0dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/entrada_apellidos_registro"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/caja_rectangulo_redondeado"
-            android:ems="10"
-            android:fontFamily="@font/muli"
-            android:hint="Apellido(s)"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/caja_rectangulo_redondeado"
+                android:ems="10"
+                android:fontFamily="@font/muli"
+                android:hint="@string/nombre"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/entrada_apellidos_registro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/caja_rectangulo_redondeado"
+                android:ems="10"
+                android:fontFamily="@font/muli"
+                android:hint="Apellido(s)"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/entrada_usuario_registro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -105,7 +122,6 @@
             app:counterMaxLength="10">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/entrada_usuario_registro"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:fontFamily="@font/muli"
@@ -120,6 +136,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/entrada_txf_pass_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -129,7 +146,6 @@
             app:counterMaxLength="10">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/entrada_txf_pass_1"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:fontFamily="@font/muli"
@@ -145,6 +161,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/entrada_txf_pass_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -153,7 +170,6 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/entrada_txf_pass_2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/caja_rectangulo_redondeado"
@@ -169,6 +185,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
+            android:id="@+id/GrupoBotonesRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -205,9 +222,10 @@
             android:id="@+id/boton_registrarse"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="25dp"
             android:textColor="#FFFF"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/caja_boton"
             android:text="@string/REGISTRATE"

@@ -1,6 +1,8 @@
 
 package Bixa_Backend;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -53,29 +55,29 @@ public class Keywords {
 
 
     // 
-    public String HallarLlave(String[] opcion){
+    public String HallarLlave(String[] opcion, Context ContextInstance){
         Iterator<String> iterar = null;
         String iteracion = "";
 
         if(opcion.equals(funciones)) //iterar funciones BIxa
-            iterar = Funcionalidad_Bixa.getFunciones().iterator();
+            iterar = Funcionalidad_Bixa.getFunciones(ContextInstance).iterator();
         else{
             if(opcion.equals(covid)) //sintomas COVID
-                iterar = Covid.getSintomas().iterator();
+                iterar = Covid.getSintomas(ContextInstance).iterator();
             else{//error en encontrar keyword
                 if(opcion.equals(chistes)){
-                    return Chis.getChiste();
+                    return Chis.getChiste(ContextInstance);
                 }
                     
                 else if(opcion.equals(interesante)){
-                    return Datos.getDatosInteresantes();
+                    return Datos.getDatosInteresantes(ContextInstance);
                 }
                     
                 else if(opcion.equals(saludo)) {
-                    return Saludos.getSaludo();
+                    return Saludos.getSaludo(ContextInstance);
                 }
                 else if(opcion.equals(despedida)) {
-                    return Saludos.getDespedida();
+                    return Saludos.getDespedida(ContextInstance);
                 }
                 else {
                     // No se encontro referencia (Bixa no te entendio)

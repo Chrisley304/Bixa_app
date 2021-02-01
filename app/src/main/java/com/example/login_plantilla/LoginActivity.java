@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
 import Excepciones_Bixa.UsuarioNoEncontradoException;
@@ -25,8 +27,8 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText usuario_in;
-    private EditText password_in;
+    private TextInputLayout usuario_in;
+    private TextInputLayout password_in;
     private Button boton_login;
 
     // Hash Map que contendra Usuarios Key -> Username, Value -> password
@@ -43,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         boton_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usuario = usuario_in.getText().toString();
-                String contra = password_in.getText().toString();
+                String usuario = usuario_in.getEditText().getText().toString();
+                String contra = password_in.getEditText().getText().toString();
                 try {
                     IniciarSesion(usuario,contra);
                 } catch (UsuarioNoEncontradoException e) {
@@ -64,11 +66,15 @@ public class LoginActivity extends AppCompatActivity {
         if (usuario.isEmpty()) {
             usuario_in.setError("Introduce el nombre de usuario");
             throw new CamposIncompletosException();
+        }else{
+            usuario_in.setError(null);
         }
+
         if (contrasenia.isEmpty()) {
             password_in.setError("Introduce la contraseña");
             throw new CamposIncompletosException();
         }else {
+            password_in.setError(null);
             // Si el usuario se encuentra en la base de datos:
             if(BienvenidaActivity.UsuariosRegistrados.containsKey(usuario)){
                 // Si la contraseña es correcta:
