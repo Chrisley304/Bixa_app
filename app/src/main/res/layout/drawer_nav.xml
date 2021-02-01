@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    android:gravity="bottom"
+    android:padding="20dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/FotoPerfilDrawer"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_margin="16dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:background="@drawable/circulo_foto_perfil"
         android:src="@drawable/ic_baseline_person_24"/>
 
@@ -16,56 +19,54 @@
         android:id="@+id/Nombre_navbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="Nombre Completo Usuario"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/Username_navbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="username"
-        android:textSize="17sp"/>
+        android:textSize="20sp"/>
     
     
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="16dp"
-        android:background="#636363"/>
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginVertical="16dp"-->
+<!--        android:background="#636363"/>-->
 
-    <!--  Opcion Asistente menu  -->
+<!--    &lt;!&ndash;  Opcion Asistente menu  &ndash;&gt;-->
 
-        <TextView
-            android:onClick="ClickBixa"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:drawableStart="@drawable/ic_contact_support_24px"
-            android:text="Asistente"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:layout_marginStart="16dp"/>
+<!--        <TextView-->
+<!--            android:onClick="ClickBixa"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:drawableStart="@drawable/ic_contact_support_24px"-->
+<!--            android:text="Asistente"-->
+<!--            android:textSize="15sp"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginStart="16dp"/>-->
 
-        <TextView
-            android:onClick="ClickEditPerfil"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:drawableStart="@drawable/ic_perm_identity_24px"
-            android:text="Editar Perfil"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:layout_marginStart="16dp"/>
+<!--        <TextView-->
+<!--            android:onClick="ClickEditPerfil"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:drawableStart="@drawable/ic_perm_identity_24px"-->
+<!--            android:text="Editar Perfil"-->
+<!--            android:textSize="15sp"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginStart="16dp"/>-->
 
-        <TextView
-            android:onClick="ClickCerrarSesion"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:drawableStart="@drawable/ic_perm_identity_24px"
-            android:text="Cerrar Sesión"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:layout_marginStart="16dp"/>
+<!--        <TextView-->
+<!--            android:onClick="ClickCerrarSesion"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:drawableStart="@drawable/ic_perm_identity_24px"-->
+<!--            android:text="Cerrar Sesión"-->
+<!--            android:textSize="15sp"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginStart="16dp"/>-->
 
 </LinearLayout>

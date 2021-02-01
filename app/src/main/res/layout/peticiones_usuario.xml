@@ -10,20 +10,15 @@
         android:layout_alignParentEnd="true"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:id="@+id/ImagenUsuario_perfil_petUs"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:src="@mipmap/ic_launcher"/>
-
         <TextView
             android:id="@+id/NombreUsuario"
-            android:layout_width="wrap_content"
+            android:layout_width="76dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_toLeftOf="@id/ImagenUsuario_perfil_petUs"
-            android:text=""
+            android:layout_marginStart="-76dp"
+            android:layout_marginRight="15dp"
+            android:textAlignment="textEnd"
+            android:layout_toEndOf="@id/Textvw_MensajeUsuario"
+            android:text="admin"
             android:textSize="10sp" />
 
         <TextView
@@ -33,10 +28,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="50dp"
             android:textColor="@color/blanco_chido"
             android:layout_marginBottom="0dp"
-            android:layout_toLeftOf="@id/ImagenUsuario_perfil_petUs"
             android:background="@drawable/caja_respuesta_usuario"
             android:padding="8dp"
             android:text="Hola Bixa"

@@ -13,12 +13,12 @@ public class Chis {
     //final static String archivo = "C:\\Users\\Admin\\Documents\\Semestre 2021-1\\POO\\IA\\\\chistes.txt";
     final static String archivo = "chistes.txt";
     public static String getChiste(Context context) {
-        
-        Scanner fileIn;
+
         Random chis = new Random();
         ArrayList<String> chistes = new ArrayList<>();
 
         try {
+
             // Se lee el archivo
             InputStream lector = context.getAssets().open(archivo);
             int size = lector.available();

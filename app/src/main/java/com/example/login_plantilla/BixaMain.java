@@ -1,8 +1,10 @@
 package com.example.login_plantilla;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -18,12 +19,14 @@ import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+
 import java.util.ArrayList;
 import java.util.Locale;
 import Mensajes.ListaMensajes;
@@ -35,40 +38,63 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BixaMain extends AppCompatActivity {
     // Variable final requerida para el Speach to text
     private static final int REQ_CODE_SPEECH_INPUT = 100;
-    DrawerLayout dwly;
 
+    // Variables para controlar el menu despegable
+    DrawerLayout dwly;
+    Toolbar barra_herramientas;
+    NavigationView navView;
+
+    // Variables para la 'mensajeria'
     private RecyclerView mMessageRecycler;
     private ListaMensajes mMessageAdapter;
     private ImageButton Boton_Enviar;
     EditText Texto_porEnviar;
+    ArrayList<Mensaje> messageList = new ArrayList<>();
+
+    // Variables para la  "I.A."
     Usuario user;
     String username;
-    ArrayList<Mensaje> messageList = new ArrayList<>();
     FloatingActionButton BotonHablar;
     private TextToSpeech VozBixa;
-    CircleImageView BotonFotoperfil,fotopfDrawer;
     Bixa bixa = new Bixa();
+
+    // Para la personalizacion de los menus
+    CircleImageView BotonFotoperfil,fotopfDrawer;
     TextView nombreNavbar;
     TextView usernameNavbar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bixa_mensajes);
+        setContentView(R.layout.bixa_main);
+
+        // Inicializacion de variables:
+
+        // Navbar
+        dwly = findViewById(R.id.DrawerLayout);
+        BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
+        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
+        nombreNavbar = findViewById(R.id.Nombre_navbar);
+        usernameNavbar = findViewById(R.id.Username_navbar);
+        barra_herramientas = findViewById(R.id.toolbar);
+
+        // Actividad Principal (Bixa)
         Boton_Enviar = findViewById(R.id.BotonEnviarMens);
         Texto_porEnviar = findViewById(R.id.Edittxt_mensaje);
         BotonHablar = findViewById(R.id.BotonSpeachtt);
-        dwly = findViewById(R.id.DrawerLayout);
-        nombreNavbar = findViewById(R.id.Nombre_navbar);
-        usernameNavbar = findViewById(R.id.Username_navbar);
-        BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
-        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
 
+        // Accion nesesaria para la barra de herramientas
+//        setSupportActionBar(barra_herramientas);
+
+        // Para el menu despegable:
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,dwly,barra_herramientas,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        dwly.addDrawerListener(toggle);
+        toggle.syncState();
 
         username = getIntent().getStringExtra("Usuario");
         user = BienvenidaActivity.UsuariosRegistrados.get(username);
         String nombreCompleto = user.getNombre() + " " + user.getApellido();
-        nombreNavbar.setText(nombreCompleto);
-        usernameNavbar.setText(username);
+        /*nombreNavbar.setText(nombreCompleto);
+        usernameNavbar.setText(username);*/
 
         // Si el usuario agrego foto de perfil, se colocara
         if (user.getRuta_fotoperfil() != null){
@@ -101,7 +127,7 @@ public class BixaMain extends AppCompatActivity {
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClickMenu(v);
+                Toast.makeText(BixaMain.this,"En construccion",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -190,37 +216,16 @@ public class BixaMain extends AppCompatActivity {
         }
     }
 
-    public void ClickMenu(View view){
-        openDrawer(dwly);
-    }
-
-    private void openDrawer(DrawerLayout drawerLayout) {
-        // Se abre el menu drawer
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    public void ClickFotoPerfil(View view){
-        closeDrawer(dwly);
-    }
-
-    public void closeDrawer(DrawerLayout drawerLayout){
-        // Se cierra el menu
-        // Pero primero se verifica que este abierto en primer lugar
+    @Override
+    public void onBackPressed() {
         if(dwly.isDrawerOpen(GravityCompat.START)){
-            // Si esta abierto, se procede a cerrar
             dwly.closeDrawer(GravityCompat.START);
+        }else {
+            ClickCerrarSesion();
         }
     }
 
-    public void ClickBixa(View view){
-        recreate();
-    }
-
-    public void ClickEditPerfil(View view){
-        // Se redirige a la actividad de Editat Perfil
-        Toast.makeText(this,"EN CONSTRUCCION",Toast.LENGTH_SHORT).show();
-    }
-    public void ClickCerrarSesion(View view){
+    public void ClickCerrarSesion(){
         // Se redirige a la actividad de Editat Perfil
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Cerrar Sesion");
@@ -241,9 +246,4 @@ public class BixaMain extends AppCompatActivity {
         builder.show();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        closeDrawer(dwly);
-    }
 }
