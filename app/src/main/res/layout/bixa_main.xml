@@ -41,7 +41,7 @@
                     android:layout_height="25sp"
                     android:layout_marginStart="70dp"
                     android:gravity="center"
-                    android:text="Bixa Asistant"
+                    android:text="Bixa Assistant"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:textStyle="bold" />

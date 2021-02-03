@@ -2,6 +2,11 @@
 package Bixa_Backend;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.example.login_plantilla.Alarma;
+import com.example.login_plantilla.Recordatorio;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,6 +23,8 @@ public class Keywords {
     String despedida[] = {"gracias","adios","nos vemos","gusto","bye"};
     String funciones[] = {"funciones","haces","hacer","puedes","poder","podrias","funcion","ayuda","servir","sirves"};
     String covid [] = {"covid","pandemia","cuarentena","consejo", "recomendacion","recomendaciones"};
+    String alarma[] = {"alarma"};
+    String recordatorio[] = {"recordatorio", "recordar"};
 
     static Hashtable <String, String[]> diccionarioKeywords = new Hashtable<>();   
     ArrayList<String> arregloConcentrado = new ArrayList<>();
@@ -51,6 +58,8 @@ public class Keywords {
         diccionarioKeywords.put("SALUDO",saludo);
         diccionarioKeywords.put("DESPEDIDA",despedida);
         diccionarioKeywords.put("FUNCIONES",funciones);
+        diccionarioKeywords.put("ALARMA", alarma);
+        diccionarioKeywords.put("RECORDATORIO",recordatorio);
     }
 
 
@@ -78,6 +87,16 @@ public class Keywords {
                 }
                 else if(opcion.equals(despedida)) {
                     return Saludos.getDespedida(ContextInstance);
+                }
+                else if(opcion.equals(alarma)) {
+                    Intent next = new Intent(ContextInstance, Alarma.class);
+                    ContextInstance.startActivity(next);
+                    return "Alarma establecida";
+                }
+                else if(opcion.equals(recordatorio)){
+                    Intent next = new Intent(ContextInstance, Recordatorio.class);
+                    ContextInstance.startActivity(next);
+                    return "Se añadio un nuevo recordatorio";
                 }
                 else {
                     // No se encontro referencia (Bixa no te entendio)
