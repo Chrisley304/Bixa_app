@@ -47,7 +47,7 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         // Navbar
         dwly = findViewById(R.id.DrawerLayout);
         BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
-        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
+//        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
         nombreNavbar = findViewById(R.id.Nombre_navbar);
         usernameNavbar = findViewById(R.id.Username_navbar);
         barra_herramientas = findViewById(R.id.toolbar);

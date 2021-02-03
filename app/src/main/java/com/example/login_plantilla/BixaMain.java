@@ -85,11 +85,12 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         // Navbar
         dwly = findViewById(R.id.DrawerLayout);
         BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
-        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
-        nombreNavbar = findViewById(R.id.Nombre_navbar);
-        usernameNavbar = findViewById(R.id.Username_navbar);
-        barra_herramientas = findViewById(R.id.toolbar);
         navView = findViewById(R.id.nav_view);
+        View barra_menu = navView.getHeaderView(0);
+        fotopfDrawer = barra_menu.findViewById(R.id.FotoPerfilDrawer);
+        nombreNavbar = barra_menu.findViewById(R.id.Nombre_navbar);
+        usernameNavbar = barra_menu.findViewById(R.id.Username_navbar);
+        barra_herramientas = findViewById(R.id.toolbar);
 
         /* Para el menu despegable:  ---------------------------------*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -112,12 +113,14 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         // Oculta opciones de administrador a personas no admin:
         if(!user.getUsername().equals("admin")){
             Menu menu = navView.getMenu();
-            menu.getItem(R.id.nav_admin_Registros).setVisible(false);
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
-        /*nombreNavbar.setText(nombreCompleto);
-        usernameNavbar.setText(username);*/
-        // Si el usuario agrego foto de perfil, se colocara
 
+        // Agrega el nombre y username en el menu despegable
+        nombreNavbar.setText(nombreCompleto);
+        usernameNavbar.setText(username);
+
+        // Si el usuario agrego foto de perfil, se colocara
         if (user.getRuta_fotoperfil() != null) {
             BotonFotoperfil.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
             fotopfDrawer.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
@@ -196,11 +199,11 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         });
 
         // Oculta el teclado cuando hay algo en el focus
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+//        View view = this.getCurrentFocus();
+//        if (view != null) {
+//            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
 
 
 

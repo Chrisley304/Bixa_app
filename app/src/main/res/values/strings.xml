@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bixa_beta1</string>
+    <string name="app_name">Bixa Assistant</string>
     <string name="user">Usuario</string>
     <string name="contraseña">Contraseña</string>
     <string name="login">Iniciar Sesion</string>
