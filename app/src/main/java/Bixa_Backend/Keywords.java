@@ -14,14 +14,14 @@ import Usuarios.Bixa;
 
 public class Keywords {
     // Palabras clave posibles
-    String chistes[] = {"chiste","reir","feliz","entretener","chistoso"};
-    String interesante[] = {"interesante","dato","nuevo","no se","no se","aprender"};
+    String chistes[] = {"chiste","reir","feliz","entretener","chistoso", "reír"};
+    String interesante[] = {"interesante","dato","nuevo","no se","no sé","aprender"};
     String saludo[] = {"hola","hello","hi","como te va","oye","hey","q onda"};
-    String despedida[] = {"gracias","adios","nos vemos","gusto","bye"};
-    String funciones[] = {"funciones","haces","hacer","puedes","poder","podrias","funcion","ayuda","servir","sirves"};
-    String covid [] = {"covid","pandemia","cuarentena","consejo", "recomendacion","recomendaciones"};
-    String alarma[] = {"alarma","despiertame"};
-    String recordatorio[] = {"recordatorio", "recordar","recuerdame"};
+    String despedida[] = {"gracias","adios","nos vemos","gusto","bye", "adiós"};
+    String funciones[] = {"funciones","haces","hacer","puedes","poder","podrias","funcion","ayuda","servir","sirves", "podrías"};
+    String covid [] = {"covid","pandemia","cuarentena","consejo", "recomendacion","recomendaciones", "recomendación"};
+    String alarma[] = {"alarma","despiertame", "despiértame"};
+    String recordatorio[] = {"recordatorio", "recordar","recuerdame", "recuérdame"};
 
     static Hashtable <String, String[]> diccionarioKeywords = new Hashtable<>();   
     ArrayList<String> arregloConcentrado = new ArrayList<>();
@@ -92,20 +92,25 @@ public class Keywords {
                 else if(opcion.equals(recordatorio)){
                     StringTokenizer stok = new StringTokenizer(Bixa.Peticion," ");
                     // Arreglo de cadenas donde se alamcenara la peticion de la siguiente forma:
-                    // [Cuando (día)] , [hora] , [minutos], [evento]
-                    String[] datos = new String[4];
+                    // [Cuando (día)] , [hora:minutos], [evento]
+                    String[] datos = new String[3];
+                    datos[2] = "";
                     int cont = 0;
                     while(stok.hasMoreTokens()){
                         String token = stok.nextToken();
                         if (token.equals(in)  || cont > 0 ){
-                            if (!token.equals("a") && !token.equals("las") && !token.equals("el") && !token.equals("que") && !token.equals(":") && !token.equals("en")){
-                                if (cont < 3){
-                                    datos[cont] = token;
-                                    cont++;
+                            if (!token.equals("a") && !token.equals("las") && !token.equals("el") && !token.equals("que") && !token.equals("en")){
+                                if (cont == 0){
+                                    cont ++;
                                 }else {
-                                    datos[3] += token;
-
+                                    if (cont < 3){
+                                        datos[cont-1] = token;
+                                        cont++;
+                                    }else {
+                                        datos[2] += " " + token;
+                                    }
                                 }
+
                             }
                         }
                     }

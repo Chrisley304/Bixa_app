@@ -10,6 +10,7 @@ import androidx.work.Data;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 public class Recordatorios {
@@ -22,6 +23,7 @@ public class Recordatorios {
 
         int dia, hora, minutos;
         String recordatorio;
+
         // Validacion de datos
         try{
             // Se obtiene el dia
@@ -54,16 +56,21 @@ public class Recordatorios {
                 }
             }
 
-            // Se obtiene la hora
-            hora = Integer.parseInt(datos[1]);
+            // Se obtiene la hora, separando el 2do dato del arreglo
+            StringTokenizer stk = new StringTokenizer(datos[1],":");
+            if (stk.countTokens() != 2){
+                throw new NumberFormatException();
+            }
+
+            hora = Integer.parseInt(stk.nextToken());
             // Se obtienen los minutos
-            minutos = Integer.parseInt(datos[2]);
+            minutos = Integer.parseInt(stk.nextToken());
             // Se obtiene el recordatorio
-            recordatorio = datos[3];
+            recordatorio = datos[2];
 
         }catch (NumberFormatException e){
             return "Lo siento, no pude crear tu recordatorio.\nRecuerda que para que pueda crear un recordatorio por ti, debes ingresarlo de la siguiente forma:\n" +
-                    "[dia] [hora] : [min] [Evento a recordar]";
+                    "[dia] [hora:min] [Evento a recordar]";
         }
 
         //Se define cuando el usuario va a requerir la notificacion
@@ -88,7 +95,7 @@ public class Recordatorios {
         String strDate = format.format(calendario.getTime());
         String strHour = String.format("%02d:%02d",hora,minutos);
 
-        return "Te recordare " + recordatorio + "el " + strDate +  "a las" + strHour;
+        return "Te recordare " + recordatorio + " el " + strDate +  " a las " + strHour;
     }
 
     private static String generateKey() {
