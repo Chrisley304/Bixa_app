@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Recordatorio"/>
-        <activity android:name=".Alarma"/>
+        <activity android:name="AlarmasyRecordatorios.Alarma"/>
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait" />

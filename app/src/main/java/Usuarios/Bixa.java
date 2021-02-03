@@ -15,6 +15,8 @@ public class Bixa extends Usuario{
         super("bixa", "", "Bixa", "Assistant", 'm');
     }
 
+    public static String Peticion;
+
     public String Responder(String peticion_usuario, Usuario usuario, Context ConstextInstance){
         // Se emplea la funcion String Tokenizer para 'separar' la peticion del usuario y buscar la
         // palabra clave requerida
@@ -23,14 +25,13 @@ public class Bixa extends Usuario{
         String clave = "", respuesta = "";
         // Objeto para buscar palabra clave
         Keywords palabra = new Keywords();
-
+        Peticion = peticion_usuario;
         // Se crea un ciclo que recorre la cadena de la peticion del usuario hasta que se
         // acabe esta, o se encuentre la palabra clave de la peticion
         while(stok.hasMoreTokens() && !clave_hallada ){
-            System.out.println("SI ENTRO AL WHILE");
             clave = stok.nextToken();
             palabra.hasheado();
-            respuesta = palabra.HallarLlave(palabra.busqueda(clave), ConstextInstance);
+            respuesta = palabra.HallarLlave(palabra.busqueda(clave), ConstextInstance,clave);
             clave_hallada = !respuesta.equals("");
         }
 

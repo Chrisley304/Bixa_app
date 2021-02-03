@@ -2,18 +2,15 @@
 package Bixa_Backend;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-
-import com.example.login_plantilla.Alarma;
-import com.example.login_plantilla.Recordatorio;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.io.*;
-import java.util.Map;
+import java.util.StringTokenizer;
+
+import AlarmasyRecordatorios.Alarma;
+import AlarmasyRecordatorios.Recordatorios;
+import Usuarios.Bixa;
 
 public class Keywords {
     // Palabras clave posibles
@@ -23,8 +20,8 @@ public class Keywords {
     String despedida[] = {"gracias","adios","nos vemos","gusto","bye"};
     String funciones[] = {"funciones","haces","hacer","puedes","poder","podrias","funcion","ayuda","servir","sirves"};
     String covid [] = {"covid","pandemia","cuarentena","consejo", "recomendacion","recomendaciones"};
-    String alarma[] = {"alarma"};
-    String recordatorio[] = {"recordatorio", "recordar"};
+    String alarma[] = {"alarma","despiertame"};
+    String recordatorio[] = {"recordatorio", "recordar","recuerdame"};
 
     static Hashtable <String, String[]> diccionarioKeywords = new Hashtable<>();   
     ArrayList<String> arregloConcentrado = new ArrayList<>();
@@ -64,7 +61,7 @@ public class Keywords {
 
 
     // 
-    public String HallarLlave(String[] opcion, Context ContextInstance){
+    public String HallarLlave(String[] opcion, Context ContextInstance,String in){
         Iterator<String> iterar = null;
         String iteracion = "";
 
@@ -89,14 +86,30 @@ public class Keywords {
                     return Saludos.getDespedida(ContextInstance);
                 }
                 else if(opcion.equals(alarma)) {
-                    Intent next = new Intent(ContextInstance, Alarma.class);
-                    ContextInstance.startActivity(next);
+                    Alarma.NuevaAlarma(ContextInstance);
                     return "Alarma establecida";
                 }
                 else if(opcion.equals(recordatorio)){
-                    Intent next = new Intent(ContextInstance, Recordatorio.class);
-                    ContextInstance.startActivity(next);
-                    return "Se añadio un nuevo recordatorio";
+                    StringTokenizer stok = new StringTokenizer(Bixa.Peticion," ");
+                    // Arreglo de cadenas donde se alamcenara la peticion de la siguiente forma:
+                    // [Cuando (día)] , [hora] , [minutos], [evento]
+                    String[] datos = new String[4];
+                    int cont = 0;
+                    while(stok.hasMoreTokens()){
+                        String token = stok.nextToken();
+                        if (token.equals(in)  || cont > 0 ){
+                            if (!token.equals("a") && !token.equals("las") && !token.equals("el") && !token.equals("que") && !token.equals(":") && !token.equals("en")){
+                                if (cont < 3){
+                                    datos[cont] = token;
+                                    cont++;
+                                }else {
+                                    datos[3] += token;
+
+                                }
+                            }
+                        }
+                    }
+                    return Recordatorios.EstablecerRecor(ContextInstance,datos);
                 }
                 else {
                     // No se encontro referencia (Bixa no te entendio)

@@ -1,5 +1,6 @@
-package com.example.login_plantilla;
+package AlarmasyRecordatorios;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
@@ -7,18 +8,15 @@ import android.provider.AlarmClock;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class Alarma extends AppCompatActivity{
-    @Override
-    protected void onCreate (Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.);
+public class Alarma {
 
+    public static void NuevaAlarma(Context context) {
         // Valores predeterminados
         String Hora = "13";
         String Minutos = "21";
         int hora = Integer.parseInt(Hora);
         int minute = Integer.parseInt(Minutos);
-        String bixa_Alarm = "Alarma asignada por BIXA";
+        String bixa_Alarm = "Alarma establecida por BIXA";
 
         Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
         intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
@@ -28,8 +26,8 @@ public class Alarma extends AppCompatActivity{
 
         if (hora <= 23 && minute <= 59) {
             System.out.println("ALARMA" + hora + ":" + minute);
-            startActivity(intent);
-            finish();
+            context.startActivity(intent);
         }
     }
+
 }

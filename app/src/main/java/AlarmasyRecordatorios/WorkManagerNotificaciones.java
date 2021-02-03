@@ -1,4 +1,4 @@
-package com.example.login_plantilla;
+package AlarmasyRecordatorios;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -14,6 +14,9 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
+import com.example.login_plantilla.MainActivity;
+import com.example.login_plantilla.R;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

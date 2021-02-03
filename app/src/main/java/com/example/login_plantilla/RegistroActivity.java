@@ -156,7 +156,6 @@ public class RegistroActivity extends AppCompatActivity {
                     Edtx_contra2.setError(null);
                     // si todos los datos son correctos se crea el perfil del usuario y añade a la hash Map
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
-
                     // Si el usuario ingreso una imagen de perfil
                     if(ruta_imagenperfil != null){
                         BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(ruta_imagenperfil);
