@@ -68,7 +68,7 @@ public class Recordatorios {
             // Se obtiene el recordatorio
             recordatorio = datos[2];
 
-        }catch (NumberFormatException e){
+        }catch (NumberFormatException | NullPointerException e){
             return "Lo siento, no pude crear tu recordatorio.\nRecuerda que para que pueda crear un recordatorio por ti, debes ingresarlo de la siguiente forma:\n" +
                     "[dia] [hora:min] [Evento a recordar]";
         }
@@ -80,7 +80,7 @@ public class Recordatorios {
 
         //Se define la hora en la que sonara el recordatorio
 
-        calendario.set(Calendar.HOUR_OF_DAY, hora);
+        calendario.set(Calendar.HOUR, hora);
         calendario.set(Calendar.MINUTE, minutos);
 
         String tag = generateKey();

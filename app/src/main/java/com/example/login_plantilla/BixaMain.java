@@ -2,6 +2,7 @@ package com.example.login_plantilla;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +26,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -88,8 +92,18 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         navView = findViewById(R.id.nav_view);
 
         /* Para el menu despegable:  ---------------------------------*/
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                if (newState == DrawerLayout.STATE_SETTLING) {
+                    // Cierra el teclado al abrir el menu
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                }
+            }
+        };;
         dwly.addDrawerListener(toggle);
+        toggle.onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
         toggle.syncState();
         navView.bringToFront();
         navView.setNavigationItemSelectedListener(this);
@@ -180,6 +194,15 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
                 Texto_porEnviar.setText("");
             }
         });
+
+        // Oculta el teclado cuando hay algo en el focus
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+
 
         /* Parte de la "mensajeria" entre bixa y el usuario */
         mMessageRecycler = (RecyclerView) findViewById(R.id.recycler_gchat);
