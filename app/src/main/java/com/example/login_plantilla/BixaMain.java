@@ -109,13 +109,9 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_bixa);
         // Oculta opciones de administrador a personas no admin:
-        StringTokenizer stk = new StringTokenizer(username,"_");
-        while (stk.hasMoreTokens()){
-            String token = stk.nextToken();
-            if (token.equals("admin")){
-                Menu menu = navView.getMenu();
-                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
-            }
+        if (!VerUsuariosRegistrados.EsAdmin(username)){
+            Menu menu = navView.getMenu();
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
 
 
@@ -309,6 +305,14 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
                 Intent edPerf = new Intent(BixaMain.this, EditarPerfil.class);
                 edPerf.putExtra("Usuario",username);
                 startActivity(edPerf);
+                finish();
+            }break;
+
+            // Caso registros admin:
+            case R.id.nav_admin_Registros:{
+                Intent admReg = new Intent(BixaMain.this, VerUsuariosRegistrados.class);
+                admReg.putExtra("Usuario", username);
+                startActivity(admReg);
                 finish();
             }break;
 

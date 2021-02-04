@@ -74,13 +74,9 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_about);
         // Oculta opciones de administrador a personas no admin:
-        StringTokenizer stk = new StringTokenizer(username,"_");
-        while (stk.hasMoreTokens()){
-            String token = stk.nextToken();
-            if (token.equals("admin")){
-                Menu menu = navView.getMenu();
-                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
-            }
+        if (!VerUsuariosRegistrados.EsAdmin(username)){
+            Menu menu = navView.getMenu();
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
 
         // Agrega el nombre y username en el menu despegable

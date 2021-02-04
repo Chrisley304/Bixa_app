@@ -37,9 +37,13 @@ public class BienvenidaActivity extends AppCompatActivity {
             try {
                 // Crea el archivo con Context para evitar excepcion de Android: SecurityException.
                 ObjectOutputStream admin = new ObjectOutputStream(openFileOutput(fileName, Activity.MODE_PRIVATE));
-                // Añade una HashMap con un usuario admin por defecto
+                // Se crean los perfiles de administrador:
                 HashMap<String, Usuario> admin_user = new HashMap<>();
-                admin_user.put("admin", new Usuario("admin", "admin", "admin", "admin", 'h'));
+                admin_user.put("admin", new Usuario("admin", "admin", "admin", "por defecto", 'h'));
+                admin_user.put("admin_chri", new Usuario("admin_chri", "chris123", "Christian", "Leyva", 'h'));
+                admin_user.put("admin_fer", new Usuario("admin_fer", "fer123", "Fernanda", "Aguilar", 'm'));
+                admin_user.put("admin_bere", new Usuario("admin_bere", "bere123", "Berenice", "Martinez", 'm'));
+                admin_user.put("admin_prof", new Usuario("admin_prof", "profe123", "Edgar", "Tista", 'h'));
                 admin.writeObject(admin_user);
                 admin.close();
             } catch (IOException e) {

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,11 +50,11 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
     TextView txtvw_contusers;
     TextView txtvw_admins;
     TextView txtvw_users;
-    EditText editText_eliminar;
+    TextInputLayout editText_eliminar;
     Button boton_eliminar;
 
-    ArrayList<Usuario> administradores;
-    ArrayList<Usuario> usuariosList;
+    ArrayList<Usuario> administradores = new ArrayList<>();
+    ArrayList<Usuario> usuariosList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +85,9 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_about);
         // Oculta opciones de administrador a personas no admin:
-        StringTokenizer stk = new StringTokenizer(username,"_");
-        while (stk.hasMoreTokens()){
-            String token = stk.nextToken();
-            if (token.equals("admin")){
-                Menu menu = navView.getMenu();
-                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
-            }
+        if (!VerUsuariosRegistrados.EsAdmin(username)){
+            Menu menu = navView.getMenu();
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
 
         // Agrega el nombre y username en el menu despegable
@@ -122,28 +119,26 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         editText_eliminar = findViewById(R.id.editTextUsuariodel);
         boton_eliminar = findViewById(R.id.BotonUsuariodel);
 
-        administradores = new ArrayList<>();
-        usuariosList = new ArrayList<>();
-
         CargarUsuarios();
 
         boton_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String usaEl = editText_eliminar.getText().toString();
+                String usaEl = editText_eliminar.getEditText().getText().toString();
                 if (usaEl.isEmpty()){
-                    Toast.makeText(VerUsuariosRegistrados.this,"Por favor, ingresa el nombre de usuario a eliminar",Toast.LENGTH_SHORT).show();
+                    editText_eliminar.setError("Ingresa el nombre de usuario a eliminar");
                 }else {
                     Usuario delUs = BienvenidaActivity.UsuariosRegistrados.get(usaEl);
                     if (!administradores.contains(delUs)){
                         if (usuariosList.contains(delUs)){
                             BienvenidaActivity.UsuariosRegistrados.remove(delUs);
+                            editText_eliminar.setError(null);
                             CargarUsuarios();
                         }else{
-                            Toast.makeText(VerUsuariosRegistrados.this,"El usuario no fue encontrado :c",Toast.LENGTH_SHORT).show();
+                            editText_eliminar.setError("El usuario no fue encontrado :c");
                         }
                     }else {
-                        Toast.makeText(VerUsuariosRegistrados.this,"No puedes eliminar a un administrador",Toast.LENGTH_SHORT).show();
+                        editText_eliminar.setError("No puedes eliminar a un administrador");
                     }
                 }
             }
@@ -155,16 +150,9 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         administradores.clear();
         usuariosList.clear();
         for (String i: BienvenidaActivity.UsuariosRegistrados.keySet()) {
-            boolean eraAdmin = false;
-            StringTokenizer stk = new StringTokenizer(i,"_");
-            while (stk.hasMoreTokens()){
-                String token = stk.nextToken();
-                if (token.equals("admin")){
-                    administradores.add(BienvenidaActivity.UsuariosRegistrados.get(i));
-                    eraAdmin = true;
-                }
-            }
-            if (!eraAdmin){
+            if(EsAdmin(i)){
+                administradores.add(BienvenidaActivity.UsuariosRegistrados.get(i));
+            }else{
                 usuariosList.add(BienvenidaActivity.UsuariosRegistrados.get(i));
             }
         }
@@ -180,8 +168,8 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
 
         // Finalmente se coloca en la actividad
 
-        txtvw_contadmin.setText(administradores.size());
-        txtvw_contusers.setText(usuariosList.size());
+        txtvw_contadmin.setText(String.valueOf(administradores.size()));
+        txtvw_contusers.setText(String.valueOf(usuariosList.size()));
         txtvw_admins.setText(admins_string);
         txtvw_users.setText(users_string);
     }
@@ -222,11 +210,11 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            // Caso asistente (Actividad Actual)
-            case R.id.nav_about: {
+            // Caso Registros (Actividad Actual)
+            case R.id.nav_admin_Registros: {
             }break;
 
-            // Caso mas informacion
+            // Caso Asistente
             case R.id.nav_bixa: {
                 Intent bixa = new Intent(VerUsuariosRegistrados.this, BixaMain.class);
                 bixa.putExtra("Usuario",username);
@@ -242,6 +230,14 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
                 finish();
             }break;
 
+            // Caso editar perfil
+            case R.id.nav_about:{
+                Intent about = new Intent(VerUsuariosRegistrados.this, SobrelaApp.class);
+                about.putExtra("Usuario",username);
+                startActivity(about);
+                finish();
+            }break;
+
             // Caso cerrar sesion:
             case R.id.nav_logout:{
                 ClickCerrarSesion();
@@ -250,5 +246,16 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         // CIerra el menu despegable al seleccionar alguna opcion
         dwly.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    static boolean EsAdmin(String username){
+        StringTokenizer stk = new StringTokenizer(username,"_");
+        while (stk.hasMoreTokens()){
+            String token = stk.nextToken();
+            if (token.equals("admin")){
+                return true;
+            }
+        }
+        return false;
     }
 }

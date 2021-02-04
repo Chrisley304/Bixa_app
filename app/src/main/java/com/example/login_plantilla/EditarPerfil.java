@@ -40,11 +40,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.StringTokenizer;
 
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
 import Excepciones_Bixa.ContraseniaInseguraException;
+import Excepciones_Bixa.UsernameNoPermitidoException;
 import Excepciones_Bixa.UsuarioYaExistenteException;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,8 +60,8 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
     CircleImageView BotonFotoperfil, fotopfDrawer;
     TextView nombreNavbar;
     TextView usernameNavbar;
-    Usuario usuario;
-    String username;
+    Usuario usuario_obj;
+    String username_activity;
 
     private TextInputLayout Edtx_nombres;
     private TextInputLayout Edtx_apellidos;
@@ -80,9 +80,9 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
 
-        username = getIntent().getStringExtra("Usuario");
-        usuario = BienvenidaActivity.UsuariosRegistrados.get(username);
-        String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
+        username_activity = getIntent().getStringExtra("Usuario");
+        usuario_obj = BienvenidaActivity.UsuariosRegistrados.get(username_activity);
+        String nombreCompleto = usuario_obj.getNombre() + " " + usuario_obj.getApellido();
 
         // Navbar
         dwly = findViewById(R.id.DrawerLayout);
@@ -124,22 +124,18 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_editPerf);
         // Oculta opciones de administrador a personas no admin:
-        StringTokenizer stk = new StringTokenizer(username,"_");
-        while (stk.hasMoreTokens()){
-            String token = stk.nextToken();
-            if (token.equals("admin")){
-                Menu menu = navView.getMenu();
-                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
-            }
+        if (!VerUsuariosRegistrados.EsAdmin(username_activity)){
+            Menu menu = navView.getMenu();
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
 
         // Agrega el nombre y username en el menu despegable
         nombreNavbar.setText(nombreCompleto);
-        usernameNavbar.setText(username);
+        usernameNavbar.setText(username_activity);
         File imagen;
         // Si el usuario agrego foto de perfil, se colocara
-        if (usuario.getRuta_fotoperfil() != null) {
-             imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username).getRuta_fotoperfil());
+        if (usuario_obj.getRuta_fotoperfil() != null) {
+             imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username_activity).getRuta_fotoperfil());
             // Una vez con la imagen, se "comprime" para que sea mas ligero para el sistema moverla
             Bitmap bitmap_img = BitmapFactory.decodeFile(imagen.getPath());
             Bitmap imagen_comprimida = Bitmap.createScaledBitmap(bitmap_img, 128, 128, false);
@@ -151,15 +147,15 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         }
 
         // Al estar actualizando informacion, se coloca la informacion previamente ingresada
-        String nombres = usuario.getNombre();
+        String nombres = usuario_obj.getNombre();
                 Edtx_nombres.getEditText().setText(nombres);
-        String apellidos = usuario.getApellido();
+        String apellidos = usuario_obj.getApellido();
                 Edtx_apellidos.getEditText().setText(apellidos);
-        String user = usuario.getUsername();
+        String user = usuario_obj.getUsername();
         Edtx_usuario.getEditText().setText(user);
-        String contra = usuario.getContrasenia();
+        String contra = usuario_obj.getContrasenia();
         Edtx_contra1.getEditText().setText(contra);
-        char sexo = usuario.getGenero();
+        char sexo = usuario_obj.getGenero();
         if (sexo == 'h'){
             boton_Masc.toggle();
         }else{
@@ -170,7 +166,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EditarPerfil.this, "Que buena foto " + usuario.getNombre() + " !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditarPerfil.this, "Que buena foto " + usuario_obj.getNombre() + " !", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -237,9 +233,18 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
             // Si no hay errores, coloca a la casilla en su estado normal (Por si antes tenia un error)
             Edtx_usuario.setError(null);
         }
+        // Si el nombre de usuario se intento crear con permisos de administrador
+        // Rechazara la entrada, ya que solo se pueden crear en el backend estos perfiles
+        if (VerUsuariosRegistrados.EsAdmin(username)){
+            // Solo se mandara esta alerta si el usuario que intento colocar un username de admin
+            // no era admin antes de el intento
+            if (!username.equals(username_activity)){
+                throw new UsernameNoPermitidoException();
+            }
+        }
 
         // Se verifica que el nombre de usuario no se encuentre registrado actualmente o que en cuyo caso, sea el mismo que ingreso
-        if(!BienvenidaActivity.UsuariosRegistrados.containsKey(username) || usuario.getUsername().equals(username)){
+        if(!BienvenidaActivity.UsuariosRegistrados.containsKey(username) || usuario_obj.getUsername().equals(username)){
             // Si la contraseña es menor a 8 caracteres
             if (contrasenia.length() < 8){
                 throw new ContraseniaInseguraException();
@@ -395,23 +400,31 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            // Caso asistente (Actividad Actual)
+            // Caso editar perfil (Actividad Actual)
             case R.id.nav_editPerf: {
             }break;
 
             // Caso mas informacion
             case R.id.nav_bixa: {
                 Intent bixa = new Intent(EditarPerfil.this, BixaMain.class);
-                bixa.putExtra("Usuario",username);
+                bixa.putExtra("Usuario", username_activity);
                 startActivity(bixa);
                 finish();
             }break;
 
             // Caso editar perfil
             case R.id.nav_about:{
-                Intent edPerf = new Intent(EditarPerfil.this, EditarPerfil.class);
-                edPerf.putExtra("Usuario",username);
+                Intent edPerf = new Intent(EditarPerfil.this, SobrelaApp.class);
+                edPerf.putExtra("Usuario", username_activity);
                 startActivity(edPerf);
+                finish();
+            }break;
+
+            // Caso registros admin:
+            case R.id.nav_admin_Registros:{
+                Intent admReg = new Intent(EditarPerfil.this, VerUsuariosRegistrados.class);
+                admReg.putExtra("Usuario", username_activity);
+                startActivity(admReg);
                 finish();
             }break;
 

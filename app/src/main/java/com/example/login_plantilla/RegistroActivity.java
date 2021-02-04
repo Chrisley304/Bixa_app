@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,6 +32,7 @@ import java.io.ObjectOutputStream;
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
 import Excepciones_Bixa.ContraseniaInseguraException;
+import Excepciones_Bixa.UsernameNoPermitidoException;
 import Excepciones_Bixa.UsuarioYaExistenteException;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -97,7 +99,10 @@ public class RegistroActivity extends AppCompatActivity {
                     Registrar(user,contra,contra2,nombres,apellidos,sexo);
                 } catch (ContraseniaInseguraException e) {
                     Edtx_contra1.setError("La contraseña debe ser de al menos 8 caracteres");
-                } catch (UsuarioYaExistenteException e) {
+                } catch (UsernameNoPermitidoException e){
+                    Edtx_usuario.setError("No puedes crear un nombre de usuario con permisos de administrador (admin_)");
+                }
+                catch (UsuarioYaExistenteException e) {
                     Edtx_usuario.setError("El nombre de usuario ya esta registrado en el sistema");
                 } catch (ContraseniaIncorrectaException e) {
                     Edtx_contra2.setError("Las contraseñas no coinciden");
@@ -144,6 +149,11 @@ public class RegistroActivity extends AppCompatActivity {
         }else{
             // Si no hay errores, coloca a la casilla en su estado normal (Por si antes tenia un error)
             Edtx_usuario.setError(null);
+        }
+        // Si el nombre de usuario se intento crear con permisos de administrador
+        // Rechazara la entrada, ya que solo se pueden crear en el backend estos perfiles
+        if (VerUsuariosRegistrados.EsAdmin(username)){
+            throw new UsernameNoPermitidoException();
         }
 
         // Se verifica que el nombre de usuario no se encuentre registrado actualmente
