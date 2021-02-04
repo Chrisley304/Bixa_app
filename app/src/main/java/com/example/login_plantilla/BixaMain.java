@@ -17,6 +17,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -35,6 +39,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -93,16 +99,7 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         barra_herramientas = findViewById(R.id.toolbar);
 
         /* Para el menu despegable:  ---------------------------------*/
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                if (newState == DrawerLayout.STATE_SETTLING) {
-                    // Cierra el teclado al abrir el menu
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
-            }
-        };;
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dwly.addDrawerListener(toggle);
         toggle.onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
         toggle.syncState();
@@ -122,14 +119,20 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
 
         // Si el usuario agrego foto de perfil, se colocara
         if (user.getRuta_fotoperfil() != null) {
-            BotonFotoperfil.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
-            fotopfDrawer.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
+            File imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username).getRuta_fotoperfil());
+            // Una vez con la imagen, se "comprime" para que sea mas ligero para el sistema moverla
+            Bitmap bitmap_img = BitmapFactory.decodeFile(imagen.getPath());
+            Bitmap imagen_comprimida = Bitmap.createScaledBitmap(bitmap_img, 128, 128, false);
+            // Una vez comprimida, se coloca en los "marcos"
+            BotonFotoperfil.setImageBitmap(imagen_comprimida);
+//            BotonFotoperfil.setImageDrawable(Drawable.createFromPath(imagen.toString()));
+            fotopfDrawer.setImageBitmap(imagen_comprimida);
         }
 
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BixaMain.this, "En construccion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BixaMain.this, "Que buena foto " + user.getNombre() + " !", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -197,15 +200,6 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
                 Texto_porEnviar.setText("");
             }
         });
-
-        // Oculta el teclado cuando hay algo en el focus
-//        View view = this.getCurrentFocus();
-//        if (view != null) {
-//            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//        }
-
-
 
         /* Parte de la "mensajeria" entre bixa y el usuario */
         mMessageRecycler = (RecyclerView) findViewById(R.id.recycler_gchat);

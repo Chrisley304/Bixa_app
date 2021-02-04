@@ -11,7 +11,7 @@ public class Usuario implements Serializable {
     private String nombre;
     private String apellido;
     private char genero;
-    File ruta_fotoperfil;
+    String ruta_fotoperfil;
 
     // Ocupacion
     public Usuario(String username, String contrasenia, String nombre, String apellido, char genero) {
@@ -42,11 +42,11 @@ public class Usuario implements Serializable {
         this.genero = genero;
     }
 
-    public void setRuta_fotoperfil(Uri ruta_fotoperfil) {
-        this.ruta_fotoperfil = new File(ruta_fotoperfil.getPath());
+    public void setRuta_fotoperfil(String ruta_fotoperfil) {
+        this.ruta_fotoperfil = ruta_fotoperfil;
     }
 
-    public File getRuta_fotoperfil() {
+    public String getRuta_fotoperfil() {
         return ruta_fotoperfil;
     }
 

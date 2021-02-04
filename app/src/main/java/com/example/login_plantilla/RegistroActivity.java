@@ -1,28 +1,32 @@
 package com.example.login_plantilla;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import org.apache.commons.io.FileUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
@@ -43,7 +47,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Button boton_Registrarse;
     ImageButton FotoPerfil_boton;
     CircleImageView FotoPerfilvista;
-    Uri ruta_imagenperfil;
+    Uri uri_imagenperfil;
 
     private static final int CODIGO_PERMISO = 101;
 
@@ -157,8 +161,18 @@ public class RegistroActivity extends AppCompatActivity {
                     // si todos los datos son correctos se crea el perfil del usuario y añade a la hash Map
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
                     // Si el usuario ingreso una imagen de perfil
-                    if(ruta_imagenperfil != null){
-                        BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(ruta_imagenperfil);
+                    if(uri_imagenperfil != null){
+                        String ruta_imagen = getRealPathFromURI(this,uri_imagenperfil);
+                        String nombre_img = getFileName(uri_imagenperfil);
+                        // guarda la imagen en los archivos internos de la app, donde igual esta guardada la "base de datos"
+                        try {
+                            insertInPrivateStorage(nombre_img,ruta_imagen);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(nombre_img);
                     }
 
                     // Se actualiza el archivo de 'base de datos' para que al salir de la app quede registrado el user
@@ -192,9 +206,69 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode,Intent data){
         super.onActivityResult(requestCode, resultCode,data);
         if(resultCode == RESULT_OK){
-            ruta_imagenperfil = data.getData();
-            FotoPerfilvista.setImageURI(ruta_imagenperfil);
+            uri_imagenperfil = data.getData();
+            FotoPerfilvista.setImageURI(uri_imagenperfil);
         }
+    }
+
+    /* Metodos para guardar imagenes que el usuario ingrese en el backend de la app, autor de estos metodos: haroon47
+    * Repositorio de donde se obtuvo: https://github.com/haroon47/ImagesInternalStorage */
+
+    private void insertInPrivateStorage(String name, String path) throws IOException {
+        FileOutputStream fos  = openFileOutput(name,MODE_APPEND);
+
+        File file = new File(path);
+
+        byte[] bytes = getBytesFromFile(file);
+
+        fos.write(bytes);
+        fos.close();
+
+        Toast.makeText(getApplicationContext(),"File saved in :"+ getFilesDir() + "/"+name,Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private byte[] getBytesFromFile(File file) throws IOException {
+        byte[] data = FileUtils.readFileToByteArray(file);
+        return data;
+
+    }
+
+    private String getFileName(Uri uri)
+    {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+    private String getRealPathFromURI(Context context, Uri uri)
+    {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, proj, null, null,
+                null);
+        if (cursor != null) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        return null;
     }
 
 }

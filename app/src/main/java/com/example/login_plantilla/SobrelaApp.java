@@ -8,15 +8,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.File;
 
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,15 +56,17 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         // Navbar
         dwly = findViewById(R.id.DrawerLayout);
         BotonFotoperfil = findViewById(R.id.BotonNavDrawer);
-//        fotopfDrawer = findViewById(R.id.FotoPerfilDrawer);
-        nombreNavbar = findViewById(R.id.Nombre_navbar);
-        usernameNavbar = findViewById(R.id.Username_navbar);
-        barra_herramientas = findViewById(R.id.toolbar);
         navView = findViewById(R.id.nav_view);
+        View barra_menu = navView.getHeaderView(0);
+        fotopfDrawer = barra_menu.findViewById(R.id.FotoPerfilDrawer);
+        nombreNavbar = barra_menu.findViewById(R.id.Nombre_navbar);
+        usernameNavbar = barra_menu.findViewById(R.id.Username_navbar);
+        barra_herramientas = findViewById(R.id.toolbar);
 
         /* Para el menu despegable:  ---------------------------------*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dwly.addDrawerListener(toggle);
+        toggle.onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
         toggle.syncState();
         navView.bringToFront();
         navView.setNavigationItemSelectedListener(this);
@@ -64,16 +75,32 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         // Oculta opciones de administrador a personas no admin:
         if(!user.getUsername().equals("admin")){
             Menu menu = navView.getMenu();
-            menu.getItem(R.id.nav_admin_Registros).setVisible(false);
+            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
-        /*nombreNavbar.setText(nombreCompleto);
-        usernameNavbar.setText(username);*/
-        // Si el usuario agrego foto de perfil, se colocara
 
+        // Agrega el nombre y username en el menu despegable
+        nombreNavbar.setText(nombreCompleto);
+        usernameNavbar.setText(username);
+
+        // Si el usuario agrego foto de perfil, se colocara
         if (user.getRuta_fotoperfil() != null) {
-            BotonFotoperfil.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
-            fotopfDrawer.setImageURI(Uri.fromFile(user.getRuta_fotoperfil()));
+            File imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username).getRuta_fotoperfil());
+            // Una vez con la imagen, se "comprime" para que sea mas ligero para el sistema moverla
+            Bitmap bitmap_img = BitmapFactory.decodeFile(imagen.getPath());
+            Bitmap imagen_comprimida = Bitmap.createScaledBitmap(bitmap_img, 128, 128, false);
+            // Una vez comprimida, se coloca en los "marcos"
+            BotonFotoperfil.setImageBitmap(imagen_comprimida);
+//            BotonFotoperfil.setImageDrawable(Drawable.createFromPath(imagen.toString()));
+            fotopfDrawer.setImageBitmap(imagen_comprimida);
         }
+        TextView linkChris = findViewById(R.id.ChrisLink);
+        linkChris.setMovementMethod(LinkMovementMethod.getInstance());
+        BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SobrelaApp.this, "Que buena foto " + user.getNombre() + " !", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

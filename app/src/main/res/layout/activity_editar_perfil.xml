@@ -75,7 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="15dp"
-                android:text="Edita la informacion que requieras "
+                android:text="Edita la informacion que requieras\ny pulsa Editar informacion para guardar los cambios"
+                android:textAlignment="center"
                 android:textSize="17sp" />
 
             <LinearLayout
@@ -91,11 +92,11 @@
                     android:layout_marginEnd="40dp"
                     android:fontFamily="@font/muli"
                     android:paddingTop="40dp"
-                    android:text="Por favor Ingresa\nuna foto de perfil:"
+                    android:text="Toca la imagen para\ncambiar la foto de perfil:"
                     android:textSize="18sp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/FotoPerfilVista"
+                    android:id="@+id/FotoPerfilVista_editarinf"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginHorizontal="5dp"
@@ -108,7 +109,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/entrada_Nombres_registro"
+                android:id="@+id/entrada_Nombres_editarinf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -130,7 +131,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/entrada_apellidos_registro"
+                android:id="@+id/entrada_apellidos_editarinf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -152,7 +153,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/entrada_usuario_registro"
+                android:id="@+id/entrada_usuario_editarinf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -176,7 +177,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/entrada_txf_pass_1"
+                android:id="@+id/entrada_txf_pass_1_editarinf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -201,7 +202,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/entrada_txf_pass_2"
+                android:id="@+id/entrada_txf_pass_2_editarinf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -241,14 +242,14 @@
                 </TextView>
 
                 <RadioButton
-                    android:id="@+id/boton_masc_reg"
+                    android:id="@+id/boton_masc_reg_editarinf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/muli"
                     android:text="Masculino" />
 
                 <RadioButton
-                    android:id="@+id/boton_fem_reg"
+                    android:id="@+id/boton_fem_reg_editarinf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/muli"

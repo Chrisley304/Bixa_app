@@ -31,7 +31,7 @@ public class ListaMensajes extends RecyclerView.Adapter {
         return lista_mens.size();
     }
 
-    // Determines the appropriate ViewType according to the sender of the message.
+    // Determina que tiempo de mensaje es (Mensaje de usuario o mensaje de bixa)
     @Override
     public int getItemViewType(int position) {
         Mensaje message = (Mensaje) lista_mens.get(position);
@@ -64,7 +64,7 @@ public class ListaMensajes extends RecyclerView.Adapter {
         return null;
     }
 
-    // Passes the message object to a ViewHolder so that the contents can be bound to UI.
+    // "Pega" los mensajes en la actividad
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Mensaje message = (Mensaje) lista_mens.get(position);
