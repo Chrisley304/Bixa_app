@@ -115,7 +115,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 }
             }
-        };;
+        };
         dwly.addDrawerListener(toggle);
         toggle.onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
         toggle.syncState();
