@@ -83,7 +83,7 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         navView.bringToFront();
         navView.setNavigationItemSelectedListener(this);
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
-        navView.setCheckedItem(R.id.nav_about);
+        navView.setCheckedItem(R.id.nav_admin_Registros);
         // Oculta opciones de administrador a personas no admin:
         if (!VerUsuariosRegistrados.EsAdmin(username)){
             Menu menu = navView.getMenu();

@@ -160,6 +160,14 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
                 finish();
             }break;
 
+            // Caso registros admin:
+            case R.id.nav_admin_Registros:{
+                Intent admReg = new Intent(SobrelaApp.this, VerUsuariosRegistrados.class);
+                admReg.putExtra("Usuario", username);
+                startActivity(admReg);
+                finish();
+            }break;
+
             // Caso cerrar sesion:
             case R.id.nav_logout:{
                 ClickCerrarSesion();

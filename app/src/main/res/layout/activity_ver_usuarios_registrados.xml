@@ -87,13 +87,12 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/bungee"
             android:text="Usuarios:"
             android:textColor="@color/colorSecondary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
@@ -113,21 +112,21 @@
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="258dp"
-            android:layout_height="111dp"
+            android:layout_width="254dp"
+            android:layout_height="102dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintHorizontal_bias="0.539"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
-            app:layout_constraintVertical_bias="0.426">
+            app:layout_constraintVertical_bias="0.324">
 
             <TextView
                 android:id="@+id/textview_usuarios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/oxygen_bold"
-                android:lineSpacingExtra="8sp"
+                android:lineSpacingExtra="4sp"
                 android:text="admin_chris -> Christian Leyva\nadmin_fer -> Fernanda Aguilar"
                 android:textAlignment="center"
                 android:textColor="@color/negro"
@@ -140,8 +139,8 @@
 
         <ScrollView
             android:id="@+id/scrollView3"
-            android:layout_width="258dp"
-            android:layout_height="111dp"
+            android:layout_width="256dp"
+            android:layout_height="96dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.511"
@@ -153,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/oxygen_bold"
-                android:lineSpacingExtra="8sp"
+                android:lineSpacingExtra="4sp"
                 android:text="admin_chris -> Christian Leyva\nadmin_fer -> Fernanda Aguilar"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
