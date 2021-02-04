@@ -8,31 +8,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class VerUsuariosRegistrados extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     // Variables para controlar el menu despegable
     DrawerLayout dwly;
     Toolbar barra_herramientas;
@@ -45,10 +43,22 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
     Usuario user;
     String username;
 
+
+    // Para colocar la informacion en los TextViews
+    TextView txtvw_contadmin;
+    TextView txtvw_contusers;
+    TextView txtvw_admins;
+    TextView txtvw_users;
+    EditText editText_eliminar;
+    Button boton_eliminar;
+
+    ArrayList<Usuario> administradores;
+    ArrayList<Usuario> usuariosList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sobrela_app);
+        setContentView(R.layout.activity_ver_usuarios_registrados);
 
         username = getIntent().getStringExtra("Usuario");
         user = BienvenidaActivity.UsuariosRegistrados.get(username);
@@ -98,14 +108,82 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
 //            BotonFotoperfil.setImageDrawable(Drawable.createFromPath(imagen.toString()));
             fotopfDrawer.setImageBitmap(imagen_comprimida);
         }
-        TextView linkChris = findViewById(R.id.ChrisLink);
-        linkChris.setMovementMethod(LinkMovementMethod.getInstance());
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SobrelaApp.this, "Que buena foto " + user.getNombre() + " !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(VerUsuariosRegistrados.this, "Que buena foto " + user.getNombre() + " !", Toast.LENGTH_SHORT).show();
             }
         });
+
+        txtvw_contadmin = findViewById(R.id.contadorAdmin);
+        txtvw_contusers = findViewById(R.id.contadorUsuarios);
+        txtvw_admins = findViewById(R.id.textview_admins);
+        txtvw_users = findViewById(R.id.textview_usuarios);
+        editText_eliminar = findViewById(R.id.editTextUsuariodel);
+        boton_eliminar = findViewById(R.id.BotonUsuariodel);
+
+        administradores = new ArrayList<>();
+        usuariosList = new ArrayList<>();
+
+        CargarUsuarios();
+
+        boton_eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String usaEl = editText_eliminar.getText().toString();
+                if (usaEl.isEmpty()){
+                    Toast.makeText(VerUsuariosRegistrados.this,"Por favor, ingresa el nombre de usuario a eliminar",Toast.LENGTH_SHORT).show();
+                }else {
+                    Usuario delUs = BienvenidaActivity.UsuariosRegistrados.get(usaEl);
+                    if (!administradores.contains(delUs)){
+                        if (usuariosList.contains(delUs)){
+                            BienvenidaActivity.UsuariosRegistrados.remove(delUs);
+                            CargarUsuarios();
+                        }else{
+                            Toast.makeText(VerUsuariosRegistrados.this,"El usuario no fue encontrado :c",Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(VerUsuariosRegistrados.this,"No puedes eliminar a un administrador",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void CargarUsuarios(){
+        administradores.clear();
+        usuariosList.clear();
+        for (String i: BienvenidaActivity.UsuariosRegistrados.keySet()) {
+            boolean eraAdmin = false;
+            StringTokenizer stk = new StringTokenizer(i,"_");
+            while (stk.hasMoreTokens()){
+                String token = stk.nextToken();
+                if (token.equals("admin")){
+                    administradores.add(BienvenidaActivity.UsuariosRegistrados.get(i));
+                    eraAdmin = true;
+                }
+            }
+            if (!eraAdmin){
+                usuariosList.add(BienvenidaActivity.UsuariosRegistrados.get(i));
+            }
+        }
+        String admins_string = "";
+        for(Usuario admin : administradores){
+            admins_string += admin.getUsername() + " -> " + admin.getNombre() + " " + admin.getApellido() + "\n";
+        }
+
+        String users_string = "";
+        for(Usuario userss : usuariosList){
+            users_string += userss.getUsername() + " -> " + userss.getNombre() + " " + userss.getApellido() + "\n";
+        }
+
+        // Finalmente se coloca en la actividad
+
+        txtvw_contadmin.setText(administradores.size());
+        txtvw_contusers.setText(usuariosList.size());
+        txtvw_admins.setText(admins_string);
+        txtvw_users.setText(users_string);
     }
 
     @Override
@@ -150,7 +228,7 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
 
             // Caso mas informacion
             case R.id.nav_bixa: {
-                Intent bixa = new Intent(SobrelaApp.this, BixaMain.class);
+                Intent bixa = new Intent(VerUsuariosRegistrados.this, BixaMain.class);
                 bixa.putExtra("Usuario",username);
                 startActivity(bixa);
                 finish();
@@ -158,7 +236,7 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
 
             // Caso editar perfil
             case R.id.nav_editPerf:{
-                Intent edPerf = new Intent(SobrelaApp.this, EditarPerfil.class);
+                Intent edPerf = new Intent(VerUsuariosRegistrados.this, EditarPerfil.class);
                 edPerf.putExtra("Usuario",username);
                 startActivity(edPerf);
                 finish();
@@ -173,5 +251,4 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         dwly.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

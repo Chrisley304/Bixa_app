@@ -46,6 +46,10 @@ public class Usuario implements Serializable {
         this.ruta_fotoperfil = ruta_fotoperfil;
     }
 
+    public char getGenero() {
+        return genero;
+    }
+
     public String getRuta_fotoperfil() {
         return ruta_fotoperfil;
     }

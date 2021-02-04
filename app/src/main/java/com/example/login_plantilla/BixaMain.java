@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import Mensajes.ListaMensajes;
 import Mensajes.Mensaje;
@@ -108,10 +109,15 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_bixa);
         // Oculta opciones de administrador a personas no admin:
-        if(!user.getUsername().equals("admin")){
-            Menu menu = navView.getMenu();
-            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
+        StringTokenizer stk = new StringTokenizer(username,"_");
+        while (stk.hasMoreTokens()){
+            String token = stk.nextToken();
+            if (token.equals("admin")){
+                Menu menu = navView.getMenu();
+                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
+            }
         }
+
 
         // Agrega el nombre y username en el menu despegable
         nombreNavbar.setText(nombreCompleto);

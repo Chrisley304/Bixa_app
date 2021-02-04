@@ -188,6 +188,7 @@ public class RegistroActivity extends AppCompatActivity {
                     Intent intent  = new Intent(RegistroActivity.this, BixaMain.class);
                     intent.putExtra("Usuario",username);
                     startActivity(intent);
+                    finish();
                 }
             }
         }else{
@@ -223,10 +224,6 @@ public class RegistroActivity extends AppCompatActivity {
 
         fos.write(bytes);
         fos.close();
-
-        Toast.makeText(getApplicationContext(),"File saved in :"+ getFilesDir() + "/"+name,Toast.LENGTH_SHORT).show();
-
-
     }
 
     private byte[] getBytesFromFile(File file) throws IOException {

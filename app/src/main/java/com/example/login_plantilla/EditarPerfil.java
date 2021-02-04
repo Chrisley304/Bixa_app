@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,6 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.StringTokenizer;
 
 import Excepciones_Bixa.CamposIncompletosException;
 import Excepciones_Bixa.ContraseniaIncorrectaException;
@@ -58,7 +60,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
     CircleImageView BotonFotoperfil, fotopfDrawer;
     TextView nombreNavbar;
     TextView usernameNavbar;
-    Usuario user;
+    Usuario usuario;
     String username;
 
     private TextInputLayout Edtx_nombres;
@@ -79,8 +81,8 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_editar_perfil);
 
         username = getIntent().getStringExtra("Usuario");
-        user = BienvenidaActivity.UsuariosRegistrados.get(username);
-        String nombreCompleto = user.getNombre() + " " + user.getApellido();
+        usuario = BienvenidaActivity.UsuariosRegistrados.get(username);
+        String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
 
         // Navbar
         dwly = findViewById(R.id.DrawerLayout);
@@ -93,15 +95,15 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         barra_herramientas = findViewById(R.id.toolbar);
 
         //Editar info
-        Edtx_nombres = findViewById(R.id.entrada_Nombres_registro);
-        Edtx_apellidos = findViewById(R.id.entrada_apellidos_registro);
-        Edtx_usuario = findViewById(R.id.entrada_usuario_registro);
-        Edtx_contra1 = findViewById(R.id.entrada_txf_pass_1);
-        Edtx_contra2 = findViewById(R.id.entrada_txf_pass_2);
-        boton_Masc = findViewById(R.id.boton_masc_reg);
-        boton_Fem = findViewById(R.id.boton_fem_reg);
-        boton_Registrarse = findViewById(R.id.boton_registrarse);
-        FotoPerfilvista = findViewById(R.id.FotoPerfilVista);
+        Edtx_nombres = findViewById(R.id.entrada_Nombres_editarinf);
+        Edtx_apellidos = findViewById(R.id.entrada_apellidos_editarinf);
+        Edtx_usuario = findViewById(R.id.entrada_usuario_editarinf);
+        Edtx_contra1 = findViewById(R.id.entrada_txf_pass_1_editarinf);
+        Edtx_contra2 = findViewById(R.id.entrada_txf_pass_2_editarinf);
+        boton_Masc = findViewById(R.id.boton_masc_reg_editarinf);
+        boton_Fem = findViewById(R.id.boton_fem_reg_editarinf);
+        boton_Registrarse = findViewById(R.id.boton_editarinfo);
+        FotoPerfilvista = findViewById(R.id.FotoPerfilVista_editarinf);
 
         /* Para el menu despegable:  ---------------------------------*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
@@ -122,34 +124,53 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_editPerf);
         // Oculta opciones de administrador a personas no admin:
-        if(!user.getUsername().equals("admin")){
-            Menu menu = navView.getMenu();
-            menu.findItem(R.id.nav_admin_Registros).setVisible(false);
+        StringTokenizer stk = new StringTokenizer(username,"_");
+        while (stk.hasMoreTokens()){
+            String token = stk.nextToken();
+            if (token.equals("admin")){
+                Menu menu = navView.getMenu();
+                menu.findItem(R.id.nav_admin_Registros).setVisible(false);
+            }
         }
 
         // Agrega el nombre y username en el menu despegable
         nombreNavbar.setText(nombreCompleto);
         usernameNavbar.setText(username);
-
+        File imagen;
         // Si el usuario agrego foto de perfil, se colocara
-        if (user.getRuta_fotoperfil() != null) {
-            File imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username).getRuta_fotoperfil());
+        if (usuario.getRuta_fotoperfil() != null) {
+             imagen = new File(getFilesDir(), BienvenidaActivity.UsuariosRegistrados.get(username).getRuta_fotoperfil());
             // Una vez con la imagen, se "comprime" para que sea mas ligero para el sistema moverla
             Bitmap bitmap_img = BitmapFactory.decodeFile(imagen.getPath());
             Bitmap imagen_comprimida = Bitmap.createScaledBitmap(bitmap_img, 128, 128, false);
             // Una vez comprimida, se coloca en los "marcos"
             BotonFotoperfil.setImageBitmap(imagen_comprimida);
-//            BotonFotoperfil.setImageDrawable(Drawable.createFromPath(imagen.toString()));
             fotopfDrawer.setImageBitmap(imagen_comprimida);
+            FotoPerfilvista.setImageDrawable(Drawable.createFromPath(imagen.toString()));
+
         }
 
         // Al estar actualizando informacion, se coloca la informacion previamente ingresada
+        String nombres = usuario.getNombre();
+                Edtx_nombres.getEditText().setText(nombres);
+        String apellidos = usuario.getApellido();
+                Edtx_apellidos.getEditText().setText(apellidos);
+        String user = usuario.getUsername();
+        Edtx_usuario.getEditText().setText(user);
+        String contra = usuario.getContrasenia();
+        Edtx_contra1.getEditText().setText(contra);
+        char sexo = usuario.getGenero();
+        if (sexo == 'h'){
+            boton_Masc.toggle();
+        }else{
+            boton_Fem.toggle();
+        }
 
 
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(EditarPerfil.this, "Que buena foto " + user.getNombre() + " !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditarPerfil.this, "Que buena foto " + usuario.getNombre() + " !", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -217,8 +238,8 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
             Edtx_usuario.setError(null);
         }
 
-        // Se verifica que el nombre de usuario no se encuentre registrado actualmente
-        if(!BienvenidaActivity.UsuariosRegistrados.containsKey(username)){
+        // Se verifica que el nombre de usuario no se encuentre registrado actualmente o que en cuyo caso, sea el mismo que ingreso
+        if(!BienvenidaActivity.UsuariosRegistrados.containsKey(username) || usuario.getUsername().equals(username)){
             // Si la contraseña es menor a 8 caracteres
             if (contrasenia.length() < 8){
                 throw new ContraseniaInseguraException();
@@ -229,7 +250,8 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                     throw new ContraseniaIncorrectaException();
                 }else{
                     Edtx_contra2.setError(null);
-                    // si todos los datos son correctos se crea el perfil del usuario y añade a la hash Map
+                    // si todos los datos son correctos se borra el perfil biejo del usuario y  el nuevo  se añade a la hash Map
+                    BienvenidaActivity.UsuariosRegistrados.remove(username);
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
                     // Si el usuario ingreso una imagen de perfil
                     if(uri_imagenperfil != null){
@@ -294,16 +316,11 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
 
         fos.write(bytes);
         fos.close();
-
-        Toast.makeText(getApplicationContext(),"File saved in :"+ getFilesDir() + "/"+name,Toast.LENGTH_SHORT).show();
-
-
     }
 
     private byte[] getBytesFromFile(File file) throws IOException {
         byte[] data = FileUtils.readFileToByteArray(file);
         return data;
-
     }
 
     private String getFileName(Uri uri)
