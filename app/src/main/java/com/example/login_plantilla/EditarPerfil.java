@@ -5,13 +5,17 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -74,6 +78,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
     ImageButton FotoPerfil_boton;
     CircleImageView FotoPerfilvista;
     Uri uri_imagenperfil;
+    private static final int CODIGO_PERMISO = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,16 +111,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         FotoPerfilvista = findViewById(R.id.FotoPerfilVista_editarinf);
 
         /* Para el menu despegable:  ---------------------------------*/
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                if (newState == DrawerLayout.STATE_SETTLING) {
-                    // Cierra el teclado al abrir el menu
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                }
-            }
-        };
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dwly, barra_herramientas, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dwly.addDrawerListener(toggle);
         toggle.onDrawerStateChanged(DrawerLayout.STATE_DRAGGING);
         toggle.syncState();
@@ -167,6 +163,22 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Toast.makeText(EditarPerfil.this, "Que buena foto " + usuario_obj.getNombre() + " !", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Evento para selecionar la foto de perfil
+        FotoPerfilvista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Se "pide permiso" al usuario para utilizar imagenes de su galeria (Por cuestiones de privacidad de android)
+                if(ContextCompat.checkSelfPermission(EditarPerfil.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    // Si no se tiene el permiso del usuario
+                    ActivityCompat.requestPermissions(EditarPerfil.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},CODIGO_PERMISO);
+                }
+                else{
+                    // Si se tiene el permiso se procede a cargar imagenes
+                    cargarImagen();
+                }
             }
         });
 
@@ -282,10 +294,6 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                     } catch (IOException e) {
                         Toast.makeText(EditarPerfil.this,"ERROR: No se logro actualizar la base de datos",Toast.LENGTH_LONG).show();
                     }
-                    // Te envia a la pantalla del asistente
-                    Intent intent  = new Intent(EditarPerfil.this, BixaMain.class);
-                    intent.putExtra("Usuario",username);
-                    startActivity(intent);
                 }
             }
         }else{

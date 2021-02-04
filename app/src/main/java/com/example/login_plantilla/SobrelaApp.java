@@ -95,7 +95,11 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
             fotopfDrawer.setImageBitmap(imagen_comprimida);
         }
         TextView linkChris = findViewById(R.id.ChrisLink);
+        TextView linkFer = findViewById(R.id.FerLink);
+        TextView linkBere = findViewById(R.id.BereLink);
         linkChris.setMovementMethod(LinkMovementMethod.getInstance());
+        linkFer.setMovementMethod(LinkMovementMethod.getInstance());
+        linkBere.setMovementMethod(LinkMovementMethod.getInstance());
         BotonFotoperfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

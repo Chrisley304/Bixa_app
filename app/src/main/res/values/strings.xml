@@ -12,6 +12,12 @@
     <string name="ChrisInsta">
             <a href="https://www.instagram.com/chrisley304/">Christian Leyva</a>
     </string>
+    <string name="FerInsta">
+        <a href= "https://www.instagram.com/fernanda_a.corona/">Fernanda Aguilar</a>
+    </string>
+    <string name="BereInsta">
+        <a href= "https://www.instagram.com/bere.mtz29/">Berenice Martinez</a>
+    </string>
     <string name="navigation_drawer_open">Abrir menu despegable</string>
     <string name="navigation_drawer_close">Cerrar menu despegable</string>
 
