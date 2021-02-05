@@ -14,6 +14,9 @@ import java.util.Locale;
 
 import Usuarios.Usuario;
 
+/**
+ * Esta clase crea el layout de los mensajes del USUARIO que se van a pegar dentro del recycler view
+ */
 public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
     TextView mensajeUsua, horaUsuario , nombreusuario_mensaje;
 
@@ -25,6 +28,10 @@ public class PeticionUsuarioHolder extends RecyclerView.ViewHolder {
         nombreusuario_mensaje = (TextView) itemView.findViewById(R.id.NombreUsuario);
     }
 
+    /**
+     *  Aqui se coloca la informacion del objeto Mensaje en los textview del mensaje
+     * @param mensaje Mensaje a utilizar
+     */
     void bind(Mensaje mensaje) {
         // Inseta el mensaje en la plantilla de mensaje
         mensajeUsua.setText(mensaje.getMensaje());

@@ -11,13 +11,19 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-
+/**
+ * En esta clase se lee el archivo txt de saludo.txt y despedida.txt para que bixa salude o se despida
+ */
 public class Saludos {
 
     final static String archivoSaludos = "saludo.txt";
     final static String archivoDespedidas = "despedida.txt";
 
-    // recibe el nombre el del usuario.name
+    /**
+     * Metodo donde se encuentra el algoritmo para que bixa salude
+     * @param context contexto de la aplicacion requerido para abrir los archivos txt
+     * @return Regresa el saludo en una String
+     */
     public static String getSaludo(Context context) {
 
         Scanner fileIn;
@@ -46,7 +52,11 @@ public class Saludos {
         return saludos.get(chis.nextInt(saludos.size() - 1));
     }
 
-    // recibe el nombre el del usuario.name
+    /**
+     * Metodo donde se encuentra el algoritmo para que bixa se despida
+     * @param context contexto de la aplicacion requerido para abrir los archivos txt
+     * @return Regresa el despido en una String
+     */
     public static String getDespedida(Context context) {
 
         Scanner fileIn;

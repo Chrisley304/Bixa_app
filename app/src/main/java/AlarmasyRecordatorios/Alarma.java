@@ -9,9 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.StringTokenizer;
 
-
+/**
+ * Esta clase contiene el algoritmo para que Bixa pueda crear una alarma
+ */
 public class Alarma {
 
+    /**
+     * Esta clase estatica contiene el codigo necesario para implementar una alarma
+     * y al ser statica, se puede utilizar sin necesidad de instanciar la clase
+     * @param context Contiene el contexto de la actividad, la cual se requiere para utilizar metodos de esta
+     * @param hora_junta Contiene la hora a la que el usuario le solicito a bixa crear la alarma
+     * @return Regresa el mensaje que dira Bixa indicando si el proceso fue correcto o ocurrio algun error
+     */
     public static String NuevaAlarma(Context context, String hora_junta) {
 
         int hora;

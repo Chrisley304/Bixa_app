@@ -12,9 +12,17 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-
+/**
+ * En esta clase se lee el archivo txt de datos.txt para que bixa elija un dato curioso de los almacenados en este
+ */
 public class Datos {
     final static String archivoDatosInteresantes = "datosInteresantes.txt";
+
+    /**
+     * Metodo donde se encuentra el algoritmo para que bixa "diga" datos interesantes
+     * @param context contexto de la aplicacion requerido para abrir los archivos txt
+     * @return Regresa el chiste en una String
+     */
     public static String getDatosInteresantes(Context context) {
         
         Scanner fileIn;

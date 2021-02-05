@@ -17,12 +17,25 @@ import java.util.HashMap;
 
 import Usuarios.Usuario;
 
+/**
+ * Esta clase es la que genera la actividad donde le pregunta al usuario si desea iniciar sesion o
+ * Registrarse, tambien en esta, se genera la "base de datos" y se crea una HashMap estatica
+ * la cual todas las demas clases acceden a esta para ver la "base de datos".
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
 public class BienvenidaActivity extends AppCompatActivity {
 
     private Button IniciarSes;
     private Button Registrarse;
-    public static HashMap<String,Usuario> UsuariosRegistrados;
+    public static HashMap<String, Usuario> UsuariosRegistrados;
 
+    /**
+     * En este metodo onCreate, se crea la base de datos en la ruta por defecto dentro de los archivos de la app
+     * si este no existe, si a existe, simplemente se lee y agrega a la HashMap estatica
+     *
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,24 +69,21 @@ public class BienvenidaActivity extends AppCompatActivity {
         try {
             ObjectInputStream baseDatos_usuarios = new ObjectInputStream(openFileInput(fileName));
             // Lee Hash Map de Usuarios
-            UsuariosRegistrados = (HashMap<String,Usuario>) baseDatos_usuarios.readObject();
+            UsuariosRegistrados = (HashMap<String, Usuario>) baseDatos_usuarios.readObject();
             baseDatos_usuarios.close();
         } catch (IOException | ClassNotFoundException e) {
             // Muestra ventana emergente en la app con el mensaje de la excepcion
-            Toast.makeText(this,"Error al intentar leer la base de Usuarios, La app se cerrara",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error al intentar leer la base de Usuarios, La app se cerrara", Toast.LENGTH_LONG).show();
             // Si hay un problema al leer el archivo, significa que este esta dañado y es necesario crearlo de nuevo
             base_datos.delete();
             finish();
         }
 
-
-
-
         IniciarSes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Se carga la Actividad de Iniciar Sesion
-                Intent inses = new Intent(BienvenidaActivity.this,LoginActivity.class);
+                Intent inses = new Intent(BienvenidaActivity.this, LoginActivity.class);
                 startActivity(inses);
             }
         });
@@ -81,7 +91,7 @@ public class BienvenidaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Se carga la Actividad de Iniciar Sesion
-                Intent reg = new Intent(BienvenidaActivity.this,RegistroActivity.class);
+                Intent reg = new Intent(BienvenidaActivity.this, RegistroActivity.class);
                 startActivity(reg);
             }
         });

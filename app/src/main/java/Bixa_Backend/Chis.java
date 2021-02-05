@@ -8,10 +8,17 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 
-
+/**
+ * En esta clase se lee el archivo txt de chistes.txt para que bixa elija un chiste de los almacenados en este
+ */
 public class Chis {
-    //final static String archivo = "C:\\Users\\Admin\\Documents\\Semestre 2021-1\\POO\\IA\\\\chistes.txt";
     final static String archivo = "chistes.txt";
+
+    /**
+     * Metodo donde se encuentra el algoritmo para que bixa "diga" chistes
+     * @param context contexto de la aplicacion requerido para abrir los archivos txt
+     * @return Regresa el chiste en una String
+     */
     public static String getChiste(Context context) {
 
         Random chis = new Random();

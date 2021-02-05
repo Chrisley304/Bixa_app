@@ -17,13 +17,18 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
- *
- * @author Admin
+ * En esta clase bixa dice lo que puede hacer
  */
 public class Funcionalidad_Bixa {
     
     
     final static String archivoFuncionalidad_Bixa = "funcionalidadesBixa.txt";
+
+    /**
+     * Metodo donde se encuentra el algoritmo para que bixa "diga" sus funciones
+     * @param context contexto de la aplicacion requerido para abrir los archivos txt
+     * @return Regresa el chiste en una ArrayList
+     */
     public static ArrayList getFunciones(Context context) {
         
         Scanner fileIn;

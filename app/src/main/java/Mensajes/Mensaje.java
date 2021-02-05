@@ -2,6 +2,10 @@ package Mensajes;
 
 import Usuarios.Usuario;
 
+/**
+ * Esta clase, contiene los datos necesarios para crear los 'mensajes' o 'peticiones' para mostrarlos en
+ * Bixa Main, los cuales son el mensaje, quien lo envia y cuando lo envia
+ */
 public class Mensaje {
     private String mensaje;
     private Usuario emisor;

@@ -36,6 +36,11 @@ import Excepciones_Bixa.UsernameNoPermitidoException;
 import Excepciones_Bixa.UsuarioYaExistenteException;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
+/**
+ * Esta clase es la encargada de generar la actividad para Registrarse
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -53,6 +58,10 @@ public class RegistroActivity extends AppCompatActivity {
 
     private static final int CODIGO_PERMISO = 101;
 
+    /**
+     * En este metodo se genera la actividad para registrarse, y se definen las variables.
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +122,22 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Este metodo es el necesario para registrar nuevos usuarios
+     * En este se crearon validaciones de datos y dependiendo el error del usario, se utilizaran las Excepciones
+     * contenidas en el package Excepciones_Bixa
+     * @param username Contiene el username ingresado por el usuario
+     * @param contrasenia Contiene la contraseña ingresada por el usuario
+     * @param contra2 Contiene la validacion de la contraseña ingresada por el usuario
+     * @param nombre Contiene los nombres que ingreso el usuario
+     * @param apellido Contiene los apellidos que ingreso el usuario
+     * @param genero Caracter 'h' para hombre y 'm' para mujer obtenido de el grupo de botones circulares
+     * @throws UsuarioYaExistenteException Excepcion lanzada en caso de que el Usuario ya se encuentre registrado en el sistema, al igual que si el usuario intenta crear un usuario con permisos de administrador, se
+     * lanzara una UsernameNoPermitidoException, la cual hereda de esta excepcion.
+     * @throws ContraseniaInseguraException Excepcion lanzada en caso de que el usuario haya ingresado una contraseña menor a 8 caracteres.
+     * @throws ContraseniaIncorrectaException Excepcion lanzada en caso de que el usuario haya ingresado una contraseña diferente en la validacion de la misma
+     * @throws CamposIncompletosException Excepcion lanzada en caso de que el usuario no haya llenado todos los campos de el formulario.
+     */
     private void Registrar(String username, String contrasenia,String contra2,  String nombre, String apellido, char genero) throws UsuarioYaExistenteException, ContraseniaInseguraException, ContraseniaIncorrectaException, CamposIncompletosException {
 
         // Validacion botones de seleccion de genero
@@ -206,13 +231,22 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
-    // Metodo para utilizar imagenes de el telefono del usuario en la app
+    /**
+     * Metodo para utilizar imagenes de el telefono del usuario en la app
+     */
     public void cargarImagen(){
         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicacion"),10);
     }
 
+    /**
+     * Este metodo obtiene el resultado que proporciona la ventana emergente de la seleccion de Imagenes
+     * con la imagen seleccionada por el usuario.
+     * @param requestCode parametro requerido por la funcion
+     * @param resultCode parametro requerido por la funcion
+     * @param data en este parametro se encuentra la imagen
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data){
         super.onActivityResult(requestCode, resultCode,data);
@@ -222,8 +256,10 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
-    /* Metodos para guardar imagenes que el usuario ingrese en el backend de la app, autor de estos metodos: haroon47
-    * Repositorio de donde se obtuvo: https://github.com/haroon47/ImagesInternalStorage */
+    /**
+     *  Metodos para guardar imagenes que el usuario ingrese en el backend de la app, autor de estos metodos: haroon47
+     * Repositorio de donde se obtuvo: https://github.com/haroon47/ImagesInternalStorage
+     */
 
     private void insertInPrivateStorage(String name, String path) throws IOException {
         FileOutputStream fos  = openFileOutput(name,MODE_APPEND);
@@ -235,13 +271,22 @@ public class RegistroActivity extends AppCompatActivity {
         fos.write(bytes);
         fos.close();
     }
-
+    /**
+     * Convierte una intancia de File, en un arreglo de Bytes
+     * @param file archivo a convertir
+     * @return Regresa el arreglo de bytes generado a partir de la imagen
+     * @throws IOException
+     */
     private byte[] getBytesFromFile(File file) throws IOException {
         byte[] data = FileUtils.readFileToByteArray(file);
         return data;
 
     }
-
+    /**
+     *  Obtiene el nombre de la imagen a guardar
+     * @param uri La imagen a obtener el nombre
+     * @return Regresa el nombre de la imagen en String
+     */
     private String getFileName(Uri uri)
     {
         String result = null;
@@ -264,7 +309,13 @@ public class RegistroActivity extends AppCompatActivity {
         }
         return result;
     }
-
+    /**
+     * Obtiene la ruta REAL de la imagen obtenida, ya que los objetos Uri limitan la ruta y no permiten
+     * trabajar correctamente con estos archivos
+     * @param context Contiene el contexto de la actividad
+     * @param uri Imagen a obtener la ruta
+     * @return Regresa la ruta completa en String
+     */
     private String getRealPathFromURI(Context context, Uri uri)
     {
         String[] proj = {MediaStore.Images.Media.DATA};

@@ -51,34 +51,54 @@ import Usuarios.Bixa;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Esta clase es la encargada de generar la actividad con el alsistente virtual.
+ * Se podria decir, que es la actividad principal
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
 public class BixaMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    // Variable final requerida para el Speach to text
+    /**
+     * Variable final requerida para el Speach to text
+     */
     private static final int REQ_CODE_SPEECH_INPUT = 100;
 
-    // Variables para controlar el menu despegable
+    /**
+     * Variables para controlar el menu despegable
+     */
     DrawerLayout dwly;
     Toolbar barra_herramientas;
     NavigationView navView;
 
-    // Variables para la 'mensajeria'
+    /**
+     *      Variables para la 'mensajeria'
+     */
     private RecyclerView mMessageRecycler;
     private ListaMensajes mMessageAdapter;
     private ImageButton Boton_Enviar;
     EditText Texto_porEnviar;
     ArrayList<Mensaje> messageList = new ArrayList<>();
 
-    // Variables para la  "I.A."
+    /**
+     *     Variables para la  "I.A."
+     */
     Usuario user;
     String username;
     FloatingActionButton BotonHablar;
     private TextToSpeech VozBixa;
     Bixa bixa = new Bixa();
 
-    // Para la personalizacion de los menus
+    /**
+     *     Para la personalizacion de los menus
+     */
     CircleImageView BotonFotoperfil, fotopfDrawer;
     TextView nombreNavbar;
     TextView usernameNavbar;
 
+    /**
+     * En este metodo onCreate, se crean variables locales para iniciar el asistente virtual.
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bixa_main);
@@ -109,7 +129,7 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         // Muestra como seleccionado por defecto la opcion de asistente del meu despegable
         navView.setCheckedItem(R.id.nav_bixa);
         // Oculta opciones de administrador a personas no admin:
-        if (!VerUsuariosRegistrados.EsAdmin(username)){
+        if (!VerUsuariosRegistrados.EsAdmin(username)) {
             Menu menu = navView.getMenu();
             menu.findItem(R.id.nav_admin_Registros).setVisible(false);
         }
@@ -127,7 +147,6 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
             Bitmap imagen_comprimida = Bitmap.createScaledBitmap(bitmap_img, 128, 128, false);
             // Una vez comprimida, se coloca en los "marcos"
             BotonFotoperfil.setImageBitmap(imagen_comprimida);
-//            BotonFotoperfil.setImageDrawable(Drawable.createFromPath(imagen.toString()));
             fotopfDrawer.setImageBitmap(imagen_comprimida);
         }
 
@@ -211,6 +230,12 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         mMessageRecycler.setLayoutManager(linL);
     }
 
+    /**
+     * Este metodo es el encargado de enviar la peticion al Objeto Bixa (El asistente virtual)
+     * Para que esta procese la peticion y responda lo adecuado al "mensaje".
+     * @param petUsuario String con el mensaje o peticion a Bixa.
+     * @param Perfil_usuario Contiene toda la informacion del usuario.
+     */
     private void MandarPeticion(String petUsuario, Usuario Perfil_usuario) {
         EnviarMensaje(petUsuario, Perfil_usuario);
         petUsuario = petUsuario.toLowerCase();
@@ -219,12 +244,22 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         VozBixa.speak(respuesta_bixa, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    /**
+     * Este metodo es engargado de Añadir a la lista de mensajes del recicler View de la actividad
+     * El texto que el usuario ingreso en el TextEdit.
+     * Nota: Para enviar el mensaje, se crea
+     * @param mensaje Es la cadena que se colocara en la "burbuja" de chat.
+     * @param emisor Contiene toda la informacion de el emisor del mensaje.
+     */
     private void EnviarMensaje(String mensaje, Usuario emisor) {
         messageList.add(new Mensaje(mensaje, emisor, System.currentTimeMillis()));
         mMessageAdapter = new ListaMensajes(this, messageList);
         mMessageRecycler.setAdapter(mMessageAdapter);
     }
 
+    /**
+     * Este metodo se utiliza para el funcionamientod de el Speak to Text
+     */
     private void In_EntradaVoz() {
         // Itent -> clase de Google con funciones chidas, como reconocimiento de voz
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -239,6 +274,13 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    /**
+     * Este metodo obtiene el resultado que proporciona la ventana emergente del Speak to text, el cual
+     * es proporcionado por un servidor de Google.
+     * @param requestCode parametro requerido por la funcion
+     * @param resultCode parametro requerido por la funcion
+     * @param data en este parametro se encuentra lo que el usuario dijo convertido en String
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -252,6 +294,12 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    /**
+     * Este metodo sobre escribe lo que hace la aplicacion al presionar el boton de 'atras' de
+     * el sistema android.
+     * Si el menu despegable esta abierto, lo cerrara
+     * Si no esta abierto, te mostrara una ventana emergente sobre si deseas cerrar sesion.
+     */
     @Override
     public void onBackPressed() {
         if (dwly.isDrawerOpen(GravityCompat.START)) {
@@ -261,6 +309,10 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         }
     }
 
+    /**
+     * Este metodo crea una ventana emergente con un Builder, en este se muestra un mensaje sobre si estas
+     * seguro que deseas cerrar sesion, y dependiendo de la respuesta del usuario, cerrara sesion, o ignorara el aviso.
+     */
     public void ClickCerrarSesion() {
         // Se redirige a la actividad de Editat Perfil
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -282,42 +334,50 @@ public class BixaMain extends AppCompatActivity implements NavigationView.OnNavi
         builder.show();
     }
 
-    //Cambio de actividad con el menu:
-    // Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+    /**
+     * Cambio de actividad con el menu:
+     * Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+     * @param item se refiere al que parte del menu seleccionaste.
+     * @return regresa un boolean para indicar si funciono o no el metodo
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
             // Caso asistente (Actividad Actual)
             case R.id.nav_bixa: {
-            }break;
+            }
+            break;
 
             // Caso mas informacion
             case R.id.nav_about: {
                 Intent about = new Intent(BixaMain.this, SobrelaApp.class);
-                about.putExtra("Usuario",username);
+                about.putExtra("Usuario", username);
                 startActivity(about);
                 finish();
-            }break;
+            }
+            break;
 
             // Caso editar perfil
-            case R.id.nav_editPerf:{
+            case R.id.nav_editPerf: {
                 Intent edPerf = new Intent(BixaMain.this, EditarPerfil.class);
-                edPerf.putExtra("Usuario",username);
+                edPerf.putExtra("Usuario", username);
                 startActivity(edPerf);
                 finish();
-            }break;
+            }
+            break;
 
             // Caso registros admin:
-            case R.id.nav_admin_Registros:{
+            case R.id.nav_admin_Registros: {
                 Intent admReg = new Intent(BixaMain.this, VerUsuariosRegistrados.class);
                 admReg.putExtra("Usuario", username);
                 startActivity(admReg);
                 finish();
-            }break;
+            }
+            break;
 
             // Caso cerrar sesion:
-            case R.id.nav_logout:{
+            case R.id.nav_logout: {
                 ClickCerrarSesion();
             }
         }

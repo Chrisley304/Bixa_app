@@ -53,6 +53,12 @@ import Excepciones_Bixa.UsuarioYaExistenteException;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Esta clase es la encargada de generar la actividad para editar el perfil de un usuario
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
+
 public class EditarPerfil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Variables para controlar el menu despegable
@@ -80,6 +86,15 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
     Uri uri_imagenperfil;
     private static final int CODIGO_PERMISO = 101;
 
+    /**
+     * En este metodo onCreate, se crean variables locales para generar el menu despegable, y conectarlo
+     * con las otras 3 actividades que tambien incluyen este menu despegable.
+     *
+     * Tambien en este metodo, se coloca la informacion que ya se tiene del usuario en las casillas
+     * EditText para que el usuario conozca la informacion que este ya coloco y solo modifique la que necesite.
+     *
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,6 +223,23 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    /**
+     * Este metodo es el necesario para registrar nuevos usuarios o en este caso en particular
+     * de actualizar la informacion de usuarios ya existentes.
+     * En este se crearon validaciones de datos y dependiendo el error del usario, se utilizaran las Excepciones
+     * contenidas en el package Excepciones_Bixa
+     * @param username Contiene el username ingresado por el usuario
+     * @param contrasenia Contiene la contraseña ingresada por el usuario
+     * @param contra2 Contiene la validacion de la contraseña ingresada por el usuario
+     * @param nombre Contiene los nombres que ingreso el usuario
+     * @param apellido Contiene los apellidos que ingreso el usuario
+     * @param genero Caracter 'h' para hombre y 'm' para mujer obtenido de el grupo de botones circulares
+     * @throws UsuarioYaExistenteException Excepcion lanzada en caso de que el Usuario ya se encuentre registrado en el sistema, al igual que si el usuario intenta crear un usuario con permisos de administrador, se
+     * lanzara una UsernameNoPermitidoException, la cual hereda de esta excepcion.
+     * @throws ContraseniaInseguraException Excepcion lanzada en caso de que el usuario haya ingresado una contraseña menor a 8 caracteres.
+     * @throws ContraseniaIncorrectaException Excepcion lanzada en caso de que el usuario haya ingresado una contraseña diferente en la validacion de la misma
+     * @throws CamposIncompletosException Excepcion lanzada en caso de que el usuario no haya llenado todos los campos de el formulario.
+     */
     private void Registrar(String username, String contrasenia,String contra2,  String nombre, String apellido, char genero) throws UsuarioYaExistenteException, ContraseniaInseguraException, ContraseniaIncorrectaException, CamposIncompletosException {
 
         // Validacion botones de seleccion de genero
@@ -301,13 +333,22 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // Metodo para utilizar imagenes de el telefono del usuario en la app
+    /**
+     * Metodo para utilizar imagenes de el telefono del usuario en la app
+     */
     public void cargarImagen(){
         Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Seleccione la Aplicacion"),10);
     }
 
+    /**
+     * Este metodo obtiene el resultado que proporciona la ventana emergente de la seleccion de Imagenes
+     * con la imagen seleccionada por el usuario.
+     * @param requestCode parametro requerido por la funcion
+     * @param resultCode parametro requerido por la funcion
+     * @param data en este parametro se encuentra la imagen
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data){
         super.onActivityResult(requestCode, resultCode,data);
@@ -317,8 +358,10 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    /* Metodos para guardar imagenes que el usuario ingrese en el backend de la app, autor de estos metodos: haroon47
-     * Repositorio de donde se obtuvo: https://github.com/haroon47/ImagesInternalStorage */
+    /**
+     *  Metodos para guardar imagenes que el usuario ingrese en el backend de la app, autor de estos metodos: haroon47
+     * Repositorio de donde se obtuvo: https://github.com/haroon47/ImagesInternalStorage
+     */
 
     private void insertInPrivateStorage(String name, String path) throws IOException {
         FileOutputStream fos  = openFileOutput(name,MODE_APPEND);
@@ -331,11 +374,22 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         fos.close();
     }
 
+    /**
+     * Convierte una intancia de File, en un arreglo de Bytes
+     * @param file archivo a convertir
+     * @return Regresa el arreglo de bytes generado a partir de la imagen
+     * @throws IOException
+     */
     private byte[] getBytesFromFile(File file) throws IOException {
         byte[] data = FileUtils.readFileToByteArray(file);
         return data;
     }
 
+    /**
+     *  Obtiene el nombre de la imagen a guardar
+     * @param uri La imagen a obtener el nombre
+     * @return Regresa el nombre de la imagen en String
+     */
     private String getFileName(Uri uri)
     {
         String result = null;
@@ -359,6 +413,13 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         return result;
     }
 
+    /**
+     * Obtiene la ruta REAL de la imagen obtenida, ya que los objetos Uri limitan la ruta y no permiten
+     * trabajar correctamente con estos archivos
+     * @param context Contiene el contexto de la actividad
+     * @param uri Imagen a obtener la ruta
+     * @return Regresa la ruta completa en String
+     */
     private String getRealPathFromURI(Context context, Uri uri)
     {
         String[] proj = {MediaStore.Images.Media.DATA};
@@ -372,6 +433,12 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         return null;
     }
 
+    /**
+     * Este metodo sobre escribe lo que hace la aplicacion al presionar el boton de 'atras' de
+     * el sistema android.
+     * Si el menu despegable esta abierto, lo cerrara
+     * Si no esta abierto, te mostrara una ventana emergente sobre si deseas cerrar sesion.
+     */
     @Override
     public void onBackPressed() {
         if (dwly.isDrawerOpen(GravityCompat.START)) {
@@ -381,6 +448,10 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Este metodo crea una ventana emergente con un Builder, en este se muestra un mensaje sobre si estas
+     * seguro que deseas cerrar sesion, y dependiendo de la respuesta del usuario, cerrara sesion, o ignorara el aviso.
+     */
     public void ClickCerrarSesion() {
         // Se redirige a la actividad de Editat Perfil
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -402,8 +473,12 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
         builder.show();
     }
 
-    //Cambio de actividad con el menu:
-    // Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+    /**
+     * Cambio de actividad con el menu:
+     * Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+     * @param item se refiere al que parte del menu seleccionaste.
+     * @return regresa un boolean para indicar si funciono o no el metodo
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

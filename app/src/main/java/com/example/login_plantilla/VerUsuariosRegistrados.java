@@ -31,6 +31,12 @@ import java.util.StringTokenizer;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Esta clase es la encargada de generar la actividad solo para administradores para ver los usuarios
+ * registrados en la 'base de datos'
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
 public class VerUsuariosRegistrados extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     // Variables para controlar el menu despegable
     DrawerLayout dwly;
@@ -56,6 +62,12 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
     ArrayList<Usuario> administradores = new ArrayList<>();
     ArrayList<Usuario> usuariosList = new ArrayList<>();
 
+    /**
+     * En este metodo onCreate, se crean variables locales para generar el menu despegable, y conectarlo
+     * con las otras 3 actividades que tambien incluyen este menu despegable.
+     *
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +158,10 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
 
     }
 
+    /**
+     * En este metodo se leen los usuarios registrados en la base de datos, y los separa en lista de
+     * usuarios comunes y lista de administradores, y mostrarlos en la actividad enlistados
+     */
     private void CargarUsuarios(){
         administradores.clear();
         usuariosList.clear();
@@ -174,6 +190,29 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         txtvw_users.setText(users_string);
     }
 
+    /**
+     * Este metodo estatico crea un String tokenizer seprarando el nombre de usuario ingresado en '_'
+     * si uno de los tokens incluye la palabra 'admin' significa que ese usuario tiene permisos de administrador
+     * @param username nombre de usuario
+     * @return Regresa un boolean indicando verdadero si es un administrador o falso si no lo es
+     */
+    static boolean EsAdmin(String username){
+        StringTokenizer stk = new StringTokenizer(username,"_");
+        while (stk.hasMoreTokens()){
+            String token = stk.nextToken();
+            if (token.equals("admin")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Este metodo sobre escribe lo que hace la aplicacion al presionar el boton de 'atras' de
+     * el sistema android.
+     * Si el menu despegable esta abierto, lo cerrara
+     * Si no esta abierto, te mostrara una ventana emergente sobre si deseas cerrar sesion.
+     */
     @Override
     public void onBackPressed() {
         if (dwly.isDrawerOpen(GravityCompat.START)) {
@@ -182,7 +221,10 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
             ClickCerrarSesion();
         }
     }
-
+    /**
+     * Este metodo crea una ventana emergente con un Builder, en este se muestra un mensaje sobre si estas
+     * seguro que deseas cerrar sesion, y dependiendo de la respuesta del usuario, cerrara sesion, o ignorara el aviso.
+     */
     public void ClickCerrarSesion() {
         // Se redirige a la actividad de Editat Perfil
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -204,8 +246,12 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         builder.show();
     }
 
-    //Cambio de actividad con el menu:
-    // Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+    /**
+     * Cambio de actividad con el menu:
+     * Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+     * @param item se refiere al que parte del menu seleccionaste.
+     * @return regresa un boolean para indicar si funciono o no el metodo
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -246,16 +292,5 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
         // CIerra el menu despegable al seleccionar alguna opcion
         dwly.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    static boolean EsAdmin(String username){
-        StringTokenizer stk = new StringTokenizer(username,"_");
-        while (stk.hasMoreTokens()){
-            String token = stk.nextToken();
-            if (token.equals("admin")){
-                return true;
-            }
-        }
-        return false;
     }
 }

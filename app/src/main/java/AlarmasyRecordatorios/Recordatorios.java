@@ -12,9 +12,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.UUID;
-
+/**
+ * Esta clase contiene el algoritmo para que Bixa pueda crear un recordatorio (En forma de notificacion)
+ */
 public class Recordatorios {
 
+    /**
+     * Esta funcion contiene parte del algoritmo para establecer el recordatorio
+     * @param context Contiene el contexto de la actividad, la cual se requiere para utilizar metodos de esta
+     * @param datos Es un arrayList el cual contiene los datos que el usuario le dio a bixa para que cree su recordatorio
+     * @return Regresa una cadena con el mensaje de Bixa, indicandp si el proceso fue correcto o no
+     */
     static public String EstablecerRecor(Context context, String[] datos ) {
         Calendar actual = Calendar.getInstance();
         Calendar calendario = Calendar.getInstance();
@@ -98,10 +106,21 @@ public class Recordatorios {
         return "Te recordare " + recordatorio + " el " + strDate +  " a las " + strHour;
     }
 
+    /**
+     * Genera la llave requerida para la notificacion
+     * @return regresa la llave en forma de String
+     */
     private static String generateKey() {
         return UUID.randomUUID().toString();
     }
 
+    /**
+     * Metodo en el cual se crea la notificacion
+     * @param titulo Contiene el titulo de la notificacion
+     * @param detalle Contiene lo que el usuario solicito que se le recordara
+     * @param id_noti Numero random
+     * @return Regresa la notificacion en un objeto Data
+     */
     private static Data guardarData(String titulo, String detalle, int id_noti) {
         return new Data.Builder()
                 .putString("titulo", titulo)

@@ -5,6 +5,11 @@ import android.net.Uri;
 import java.io.File;
 import java.io.Serializable;
 
+/**
+ * Clase en la cual se guardan distintos tipos de datos primitivos, para en conjunto crear el perfil
+ * de un usuario.
+ * Esta clase implementa Serializable, para que esta se pueda almacenar en un archivo de objetos
+ */
 public class Usuario implements Serializable {
     private String username;
     private String contrasenia;

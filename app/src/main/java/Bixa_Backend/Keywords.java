@@ -12,8 +12,13 @@ import AlarmasyRecordatorios.Alarma;
 import AlarmasyRecordatorios.Recordatorios;
 import Usuarios.Bixa;
 
+/**
+ * En esta clase esta el algoritmo en el cual bixa encuentra a que se refiere el usuario, para despues utilizar el metodo especifico para encontrar la respuesta adecuada.
+ */
 public class Keywords {
-    // Palabras clave posibles
+    /**
+     * Palabras clave posibles
+     */
     String chistes[] = {"chiste", "reir", "feliz", "entretener", "chistoso", "reír"};
     String interesante[] = {"interesante", "dato", "nuevo", "no se", "no sé", "aprender"};
     String saludo[] = {"hola", "hello", "hi", "como te va", "oye", "hey", "q onda"};
@@ -32,8 +37,12 @@ public class Keywords {
             arregloConcentrado.add(i);
     }
 
-    // Itera en los valores de la hash table, para encontrar a que palabra clave se refiere el ususario
-    // (Busqueda Lineal) (Introducir Excepcion)
+    /**
+     * Itera en los valores de la hash table, para encontrar a que palabra clave se refiere el ususario
+     * (Busqueda Lineal) (Introducir Excepcion)
+     * @param keyword Palabra clave
+     * @return regresa el arreglo de Strings de la palabra clave a la que se refiere
+     */
     public String[] busqueda(String keyword) {
         for (String[] i : diccionarioKeywords.values()) {
             for (String n : i) {
@@ -46,7 +55,9 @@ public class Keywords {
     }
 
 
-    // Introduce los arreglos de palabras clave en la tabla hash
+    /**
+     * Introduce los arreglos de palabras clave en la tabla hash
+     */
     public void hasheado() {
 
         diccionarioKeywords.put("COVID", covid);
@@ -60,7 +71,14 @@ public class Keywords {
     }
 
 
-    // 
+    /**
+     * Este metodo una vez que se tiene la referencia de a que se refiere el usuario, se utiliza el caso
+     * especifico para obtener la respuesta acertada a la peticion del usuario
+     * @param opcion Opcion obtenida del usuario
+     * @param ContextInstance Contexto de la actividad
+     * @param in Cadena original de la peticion del usuario
+     * @return Regresa el mensaje que dira bixa en String
+     */
     public String HallarLlave(String[] opcion, Context ContextInstance, String in) {
         Iterator<String> iterar;
         String iteracion = "";

@@ -31,6 +31,12 @@ import java.util.StringTokenizer;
 import Usuarios.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Esta clase es la encargada de generar la actividad para ver informacion adicional sobre la app
+ *
+ * @author Christian Leyva, Fernanda Aguilar, Berenice Martinez
+ */
+
 public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Variables para controlar el menu despegable
@@ -45,6 +51,12 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
     Usuario user;
     String username;
 
+    /**
+     * En este metodo onCreate, se crean variables locales para generar el menu despegable, y conectarlo
+     * con las otras 3 actividades que tambien incluyen este menu despegable.
+     *
+     * @param savedInstanceState Parametro recibido por defecto por las actividades para su creación.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +120,12 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         });
     }
 
+    /**
+     * Este metodo sobre escribe lo que hace la aplicacion al presionar el boton de 'atras' de
+     * el sistema android.
+     * Si el menu despegable esta abierto, lo cerrara
+     * Si no esta abierto, te mostrara una ventana emergente sobre si deseas cerrar sesion.
+     */
     @Override
     public void onBackPressed() {
         if (dwly.isDrawerOpen(GravityCompat.START)) {
@@ -116,7 +134,10 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
             ClickCerrarSesion();
         }
     }
-
+    /**
+     * Este metodo crea una ventana emergente con un Builder, en este se muestra un mensaje sobre si estas
+     * seguro que deseas cerrar sesion, y dependiendo de la respuesta del usuario, cerrara sesion, o ignorara el aviso.
+     */
     public void ClickCerrarSesion() {
         // Se redirige a la actividad de Editat Perfil
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -138,8 +159,12 @@ public class SobrelaApp extends AppCompatActivity implements NavigationView.OnNa
         builder.show();
     }
 
-    //Cambio de actividad con el menu:
-    // Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+    /**
+     * Cambio de actividad con el menu:
+     * Hace que se quede la seleccion en el menu, para indicar en que parte de la app estas
+     * @param item se refiere al que parte del menu seleccionaste.
+     * @return regresa un boolean para indicar si funciono o no el metodo
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
