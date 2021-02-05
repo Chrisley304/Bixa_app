@@ -300,13 +300,20 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                 }else{
                     Edtx_contra2.setError(null);
                     // si todos los datos son correctos se borra el perfil biejo del usuario y  el nuevo  se añade a la hash Map
-                    BienvenidaActivity.UsuariosRegistrados.remove(username);
+                    String ruta_imagen = null,nombre_img = null;
+                    if (uri_imagenperfil == null){
+                        nombre_img = BienvenidaActivity.UsuariosRegistrados.get(username_activity).getRuta_fotoperfil();
+                    }
+                    BienvenidaActivity.UsuariosRegistrados.remove(username_activity);
                     BienvenidaActivity.UsuariosRegistrados.put(username,new Usuario(username, contrasenia, nombre, apellido, genero));
+
                     // Si el usuario ingreso una imagen de perfil
-                    if(uri_imagenperfil != null){
-                        String ruta_imagen = getRealPathFromURI(this,uri_imagenperfil);
-                        String nombre_img = getFileName(uri_imagenperfil);
+                    if(uri_imagenperfil != null) {
+                        ruta_imagen = getRealPathFromURI(this, uri_imagenperfil);
+                        nombre_img = getFileName(uri_imagenperfil);
+                    }
                         // guarda la imagen en los archivos internos de la app, donde igual esta guardada la "base de datos"
+                    if (ruta_imagen != null){
                         try {
                             insertInPrivateStorage(nombre_img,ruta_imagen);
                         } catch (FileNotFoundException e) {
@@ -314,8 +321,8 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(nombre_img);
                     }
+                    BienvenidaActivity.UsuariosRegistrados.get(username).setRuta_fotoperfil(nombre_img);
 
                     // Se actualiza el archivo de 'base de datos' para que al salir de la app quede registrado el user
                     try {
@@ -327,6 +334,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                         Toast.makeText(EditarPerfil.this,"ERROR: No se logro actualizar la base de datos",Toast.LENGTH_LONG).show();
                     }
                     Toast.makeText(this,"Se actualizaron los datos correctamente",Toast.LENGTH_SHORT).show();
+                    username_activity = username;
                 }
             }
         }else{

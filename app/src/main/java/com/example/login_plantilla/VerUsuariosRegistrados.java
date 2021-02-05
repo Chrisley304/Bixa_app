@@ -143,9 +143,10 @@ public class VerUsuariosRegistrados extends AppCompatActivity implements Navigat
                     Usuario delUs = BienvenidaActivity.UsuariosRegistrados.get(usaEl);
                     if (!administradores.contains(delUs)){
                         if (usuariosList.contains(delUs)){
-                            BienvenidaActivity.UsuariosRegistrados.remove(delUs);
+                            BienvenidaActivity.UsuariosRegistrados.remove(usaEl);
                             editText_eliminar.setError(null);
                             CargarUsuarios();
+                            Toast.makeText(VerUsuariosRegistrados.this,"Usuario eliminado satisfactoriamente",Toast.LENGTH_LONG).show();
                         }else{
                             editText_eliminar.setError("El usuario no fue encontrado :c");
                         }
