@@ -58,9 +58,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="182dp"
-            android:layout_height="266dp"
-            android:layout_marginTop="64dp"
+            android:layout_width="180dp"
+            android:layout_height="227dp"
+            android:layout_marginTop="72dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_group_chat"
@@ -83,15 +83,14 @@
             android:id="@+id/textView2"
             android:layout_width="316dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="152dp"
+            android:layout_marginTop="28dp"
             android:text="Creado como proyecto para la clase de Programacion Orientada a Objetos de la Facultad de Ingenieria en el semestre 2021-1"
             android:textAlignment="center"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textView3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BereLink"
-            app:layout_constraintVertical_bias="0.78" />
+            app:layout_constraintTop_toBottomOf="@+id/BereLink" />
 
         <TextView
             android:id="@+id/textView3"
@@ -102,9 +101,7 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.962" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/ChrisLink"

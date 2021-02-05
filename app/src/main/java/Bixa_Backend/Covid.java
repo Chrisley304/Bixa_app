@@ -56,9 +56,9 @@ public class Covid {
      * @param context contexto de la aplicacion requerido para abrir los archivos txt
      * @return Regresa el chiste en una String
      */
-    public static ArrayList usoCubrebocas(Context context){
+    public static String getCubrebocas(Context context){
 
-        ArrayList<String> mascara = new ArrayList<>();
+        String mascara = "";
          try {
             // Se lee el archivo
             InputStream lector = context.getAssets().open(archivoMascara);
@@ -71,7 +71,7 @@ public class Covid {
             // Separa el contenido en saltos de linea
             StringTokenizer stk = new StringTokenizer(contenido, "\n");
             while(stk.hasMoreTokens()) {
-                mascara.add(stk.nextToken());
+                mascara += stk.nextToken() + "\n";
             }
         }
         catch (FileNotFoundException e){

@@ -21,6 +21,9 @@ import com.example.login_plantilla.R;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * En esta clase se crea la notificacion
+ */
 public class WorkManagerNotificaciones extends Worker {
     public WorkManagerNotificaciones(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);

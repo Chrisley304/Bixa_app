@@ -44,7 +44,7 @@ public class Bixa extends Usuario{
         while(stok.hasMoreTokens() && !clave_hallada ){
             clave = stok.nextToken();
             palabra.hasheado();
-            respuesta = palabra.HallarLlave(palabra.busqueda(clave), ConstextInstance,clave);
+            respuesta = palabra.HallarLlave(palabra.busqueda(clave), ConstextInstance,clave,usuario);
             clave_hallada = !respuesta.equals("");
         }
 
