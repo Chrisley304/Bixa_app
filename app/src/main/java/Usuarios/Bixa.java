@@ -49,7 +49,7 @@ public class Bixa extends Usuario{
         }
 
         if (respuesta.equals("")){
-            respuesta = "Lo siento, no te entendi.Repitelo de nuevo";
+            respuesta = "Lo siento, no te entendi.Repitelo de nuevo.\nSi no sabes que puedo hacer, di 'funciones' o 'ayuda'";
         }
 
         return respuesta;

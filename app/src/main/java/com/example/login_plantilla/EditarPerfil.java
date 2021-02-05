@@ -326,6 +326,7 @@ public class EditarPerfil extends AppCompatActivity implements NavigationView.On
                     } catch (IOException e) {
                         Toast.makeText(EditarPerfil.this,"ERROR: No se logro actualizar la base de datos",Toast.LENGTH_LONG).show();
                     }
+                    Toast.makeText(this,"Se actualizaron los datos correctamente",Toast.LENGTH_SHORT).show();
                 }
             }
         }else{

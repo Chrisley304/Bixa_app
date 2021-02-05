@@ -25,7 +25,7 @@ public class Keywords {
      */
     String chistes[] = {"chiste", "reir", "feliz", "entretener", "chistoso", "reír"};
     String interesante[] = {"interesante", "dato", "nuevo", "no se", "no sé", "curioso"};
-    String saludo[] = {"hola", "hello", "hi", "como te va", "oye", "hey", "q onda"};
+    String saludo[] = {"hola", "hello", "hi", "oye", "hey", "q onda"};
     String despedida[] = {"gracias", "adios", "nos vemos", "gusto", "bye", "adiós"};
     String funciones[] = {"funciones", "funcion", "ayuda", "ayudame"};
     String covid_sintomas[] = {"sintomas", "dolor", "gripa"};
@@ -38,8 +38,8 @@ public class Keywords {
     String escuela[] = {"semestre", "zoomestre", "escuela" , "facultad"};
     String cantar[]= {"cantame", "cantar" , "canta", "cancion"};
     String consejos[] = {"salir", "recomiendas", "recomendaciones", "consejo", "consejos"};
-    String volado[] = {"aguila", "voldado" ,"sol", "lanza", "moneda"};
-    String otros[] ={"tista", "siri", "alexa" , "google", "feliz", "triste", "hora", "dia","día", "hoy"};
+    String volado[] = {"aguila", "volado" ,"sol", "lanza", "moneda"};
+    String otros[] ={"tista", "siri", "alexa" , "google", "feliz", "triste", "hora", "dia","día", "hoy","estas", "estás"};
 
     static Hashtable<String, String[]> diccionarioKeywords = new Hashtable<>();
     ArrayList<String> arregloConcentrado = new ArrayList<>();
@@ -85,6 +85,7 @@ public class Keywords {
         diccionarioKeywords.put("CANTAR", cantar);
         diccionarioKeywords.put("Volado", volado);
         diccionarioKeywords.put("OTROS", otros);
+        diccionarioKeywords.put("CONSEJOS", consejos);
     }
 
 
@@ -182,7 +183,7 @@ public class Keywords {
                                 "De que los tengo (De que los tengo)\n" +
                                 "De que los tengo, tengo, tengo.";
                     }else if (in.equals("triste")){
-                        return "No estes triste " + user.getNombre() + "Te cantare una cancion para que estes feliz\n" + LeerArchivoRespuestas.getRespuesta(ContextInstance,"canciones.txt");
+                        return "No estes triste " + user.getNombre() + ", Te cantare una cancion para que estes feliz\n" + LeerArchivoRespuestas.getRespuesta(ContextInstance,"canciones.txt");
                     }else if (in.equals("hora")){
                         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
                         return "Son las " + dateFormat.format(System.currentTimeMillis()) + " " + user.getNombre();
@@ -190,7 +191,11 @@ public class Keywords {
                         Calendar calendario = Calendar.getInstance();
                         java.text.SimpleDateFormat dia_format = new java.text.SimpleDateFormat( "dd/MM/yyyy");
                         return "Hoy es " + dia_format.format(calendario.getTime()) + " " + user.getNombre();
-                    }else {
+                    }else if (in.equals("estas")|| in.equals("estás")){
+                        return "Estoy bien, gracias";
+                    }
+
+                    else {
                         return "";
                     }
                 }

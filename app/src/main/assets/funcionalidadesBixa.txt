@@ -1,14 +1,14 @@
 Puedes pedirme que:
-Platicar contigo (hola, adios, consejos)
-Hacerte reír con mis chistes
-Te cante una cancion
-Te diga algunas noticias
-Te diga como esta el clima hoy
-Consejos sobre el correcto uso del cubrebocas
-Decirte los sintomas de Covid-19
-Lanze una moneda (Volado)
-Decir un dato interesante
-Te diga que hora es o que dia es hoy
-Algunos datos del semestre o la Facultad de Ingeniería
-Programar una alarma
-Que te recuerde algo el dia que decidas
+Platicar contigo (hola, adios, consejos).
+Hacerte reír con mis chistes.
+Te cante una cancion.
+Te diga algunas noticias.
+Te diga como esta el clima hoy.
+Consejos sobre el correcto uso del cubrebocas.
+Decirte los sintomas de Covid-19.
+Lanze una moneda (Volado).
+Decir un dato interesante.
+Te diga que hora es o que dia es hoy.
+Algunos datos del semestre o la Facultad de Ingeniería.
+Programar una alarma.
+Que te recuerde algo el dia que decidas.
